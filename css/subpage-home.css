@@ -1,0 +1,136 @@
+.mui-table-view.mui-grid-view {
+    padding: 0;
+}
+.index-box .mui-table-view.mui-grid-view .mui-table-view-cell {
+    padding: 0px 0px;
+    margin: 1px 0;
+    border-radius: 10px;
+}
+.fast-ntry .mui-table-view.mui-grid-view .mui-table-view-cell {
+    padding: 12px 5px;
+    margin: 5px 0;
+    border-radius: 10px;
+}
+.mui-table-view.mui-grid-view .mui-table-view-cell>a:not(.mui-btn) {
+    margin: 0;
+	padding: 0;
+}
+.mui-content>.mui-table-view:first-child {
+    padding: 15px 10px;
+	margin-top: 0px;
+}
+.mui-bar.mui-bar-transparent{
+	line-height: 41px;
+	padding-right: 0;
+}
+.mui-input-row.mui-search{
+	display: inline-block;
+    width: 70%;
+}
+.mui-input-row.mui-search input{
+    background-color: #FFF;
+}
+.mui-search .mui-placeholder{
+	text-align: left;
+}
+.mui-search .mui-placeholder .mui-icon {
+    margin-left: 5px;
+	padding-top: 11px;
+}
+.mui-bar.mui-bar-transparent .customer-service,
+.mui-bar.mui-bar-transparent .message {
+	display: inline-block;
+    width: 15%;
+    text-align: center;
+    font-size: 24px;
+    float: right;
+    color: #FFF;
+}
+.mui-bar.mui-bar-transparent .customer-service i{
+    position: relative;
+    top: 2px;
+}
+.mui-bar .mui-search:before {
+    margin-top: -20px;
+}
+.index-box.mui-content>.mui-table-view:first-child{
+	background-color: cadetblue;
+	margin-top: 0px;
+	padding-top:20px;
+}
+.index-box .mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body{
+	color: #fff;
+}
+.banner.mui-content .mui-slider .mui-slider-group .mui-slider-item img{
+	height: 200px;
+}
+.news .mui-slider .mui-slider-group .mui-slider-item>a:not(.mui-control-item) {
+    height: 30px;
+}
+.news .mui-slider-title {
+    background-color: #FFF;
+}
+.news .fa-bookmark{
+	color: mediumslateblue;
+    margin-right: 20px;
+    font-size: 14px;
+}
+.mui-content.news{
+	padding: 5px 0px;
+    background-color: #FFF;
+    border-bottom: 1px solid #eee;
+}
+.mui-content.extension{
+    background-color: #FFF;
+}
+.mui-content.extension .mui-slider-item{
+    padding: 10px;
+}
+.mui-content.extension .mui-slider .mui-slider-group .mui-slider-item img {
+    height: 100px;
+}
+.mui-content .mui-table-view-cell .fa{
+    font-size: 30px;
+    color: cadetblue;
+	margin: 5px 0px;
+}
+.total-account{
+	padding: 15px 15px;
+	background-color: cadetblue;
+}
+.mui-content .mui-card{
+	background-color: #FFFFFF;
+}
+
+.mui-content .mui-card .mui-card-header{
+	font-size: 20px;
+	color: cadetblue;
+	margin: 5px 0px;
+}
+
+.mui-content .mui-card .mui-card-content{
+	font-size: 20px;
+	color: cadetblue;
+	margin: 20px 0px;
+}
+
+/* li.mui-table-view-cell.mui-media.mui-col-xs-3:focus, 
+li.mui-table-view-cell.mui-media.mui-col-xs-3:hover, 
+li.mui-table-view-cell.mui-media.mui-col-xs-3:active {
+    background-color: cadetblue;
+    box-shadow: 1px 1px 3px #ddd;
+}
+.index-box li.mui-table-view-cell.mui-media.mui-col-xs-3:focus, 
+.index-box li.mui-table-view-cell.mui-media.mui-col-xs-3:hover, 
+.index-box li.mui-table-view-cell.mui-media.mui-col-xs-3:active {
+    background-color: #00000024;
+    box-shadow: 1px 1px 3px #54545469;
+}
+li.mui-table-view-cell.mui-media.mui-col-xs-3:focus .fa, 
+li.mui-table-view-cell.mui-media.mui-col-xs-3:hover .fa, 
+li.mui-table-view-cell.mui-media.mui-col-xs-3:active .fa,
+li.mui-table-view-cell.mui-media.mui-col-xs-3:focus .mui-media-body, 
+li.mui-table-view-cell.mui-media.mui-col-xs-3:hover .mui-media-body, 
+li.mui-table-view-cell.mui-media.mui-col-xs-3:active .mui-media-body {
+    color: #FFF;
+} */
