@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Open Banking</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="css/css.css" rel="stylesheet" />
+		<link href="css/subpage-home.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-transparent">
+			<!-- <div class="mui-input-row mui-search">
+				<input type="search" class="mui-input-clear" placeholder="">
+			</div>
+			<div class="customer-service">
+				<i class="fa fa-headphones" aria-hidden="true"></i>
+			</div>
+			<div class="message">
+				<i class="fa fa-commenting-o" aria-hidden="true"></i>
+			</div> -->
+		</header>
+		<div class="mui-content total-account">
+			<div class="mui-card">
+					<div class="mui-card-header">Total Account($)</div>
+					<div class="mui-card-content"><center>999.99</center></div>
+			</div>
+		</div>
+		<div class="mui-content index-box">
+			<ul class="mui-table-view mui-grid-view">			
+				<li class="mui-table-view-cell mui-media mui-col-xs-4">
+					<a id="deposit" class="type-item">
+						<img class="mui-media-object" src="./images/deposit.png">
+						<div class="mui-media-body">Deposit</div>
+					</a></li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4">
+					<a id="withdraw" class="type-item">
+						<img class="mui-media-object" src="./images/cash.png">
+						<div class="mui-media-body">Withdraw</div>
+					</a></li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4">
+					<a id="transfer" class="type-item">
+						<img class="mui-media-object" src="./images/search.png">
+						<div class="mui-media-body">Transfer</div>
+					</a></li>
+			</ul>
+		</div>
+		
+		<!-- <div class="mui-content fast-ntry">
+			<ul class="mui-table-view mui-grid-view">
+				<li class="mui-table-view-cell mui-media mui-col-xs-3">
+					<a id="account_detail" class="enter-list">
+						<i class="fa fa-university" aria-hidden="true"></i>
+						<div class="mui-media-body">Account Detail</div>
+					</a></li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3">
+					<a id="account_detail_sdk" class="enter-list">
+						<i class="fa fa-pie-chart" aria-hidden="true"></i>
+						<div class="mui-media-body">Account Detail(SDK)</div>
+					</a></li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3">
+					<a id="account_overview_graphql" class="enter-list">
+						<i class="fa fa-shopping-bag" aria-hidden="true"></i>
+						<div class="mui-media-body">Customer View(GraphQL)</div>
+					</a></li> 
+				<li class="mui-table-view-cell mui-media mui-col-xs-3">
+					<a>
+						<i class="fa fa-shopping-bag" aria-hidden="true"></i>
+						<div class="mui-media-body">xxxxxxx</div>
+					</a></li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3">
+					<a>
+						<i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+						<div class="mui-media-body">xxxxxxx</div>
+					</a></li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3">
+					<a>
+						<i class="fa fa-cutlery" aria-hidden="true"></i>
+						<div class="mui-media-body">xxxxxx</div>
+					</a></li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3">
+					<a>
+						<i class="fa fa-users" aria-hidden="true"></i>
+						<div class="mui-media-body">xxxxxx</div>
+					</a></li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3">
+					<a>
+						<i class="fa fa-briefcase" aria-hidden="true"></i>
+						<div class="mui-media-body">xxxxxx</div>
+					</a></li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3">
+					<a>
+						<i class="fa fa-bars" aria-hidden="true"></i>
+						<div class="mui-media-body">xxxxxx</div>
+					</a></li>
+			</ul>
+		</div>
+		 -->
+		<script src="./js/mui.min.js"></script>
+		<script src="./js/main.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			var ws = null;
+			var token = null;
+			// H5 plus事件处理
+			function plusReady() {
+				ws = plus.webview.currentWebview();
+				ws.setStyle({
+					'popGesture': 'close'
+				});
+
+				// var slider = mui("#slider").slider({
+				// 	interval: 5000
+				// });
+				// var sliderNews = mui("#sliderNews").slider({
+				// 	interval: 3000
+				// });
+				// var sliderExtension = mui("#sliderExtension").slider({
+				// 	interval: 4000
+				// });
+				
+				// mui(".mui-table-view").on("tap", ".enter-list", function(e) {
+				// 	//Token check
+				// 	token = plus.storage.getItem("token");
+				// 	if (!token) {
+				// 		mui.alert("Invalid login information, please try again after login.", "Error", "OK", function() {
+				// 			mui.openWindow({
+				// 				url: "login.html",
+				// 				id: "login.html",
+				// 				show: {
+				// 					aniShow: 'pop-in',
+				// 					duration: 500
+				// 				},
+				// 				extras: { //extras里面的就是参数了
+
+				// 				},
+				// 				waiting: {
+				// 					autoShow: true, //自动显示等待框，默认为true
+				// 					title: 'Loading...'
+				// 				}
+				// 			});
+				// 		});
+				// 	} else {
+				// 		//Record function type
+				// 		var id = this.id
+				// 		plus.storage.setItem("type", this.id);
+				// 		var url = "transfer.html"
+				// 		if (this.id == "account_detail") {
+				// 			url = "accountinfo.html"
+				// 		} else if (this.id == "account_detail_sdk") {
+				// 			window.sessionStorage.setItem("refresh",0)
+				// 			url = "accountinfosdk.html"
+				// 		} else if (this.id == "creadit_card") {
+				// 			url = "creditcard.html"
+				// 		} else if (this.id == "account_overview") {
+				// 			url = "accountoverview.html"
+				// 		} else if (this.id == "account_overview_graphql") {
+				// 			url = "accountoverviewgraphql.html"
+				// 		}
+				// 		mui.openWindow({
+				// 			url: url,
+				// 			id: url,
+				// 			show: {
+				// 				aniShow: 'pop-in',
+				// 				duration: 500
+				// 			},
+				// 			extras: { //extras里面的就是参数了
+
+				// 			},
+				// 			waiting: {
+				// 				autoShow: true, //自动显示等待框，默认为true
+				// 				title: 'Loading...'
+				// 			}
+				// 		});
+				// 	}
+				// })
+
+				mui(".mui-table-view").on("tap", ".type-item", function(e) {
+					//Token check
+					token = plus.storage.getItem("token");
+					if (!token) {
+						mui.alert("Invalid login information, please try again after login.", "Error", "OK", function() {
+							mui.openWindow({
+								url: "login.html",
+								id: "login.html",
+								show: {
+									aniShow: 'pop-in',
+									duration: 500
+								},
+								extras: { //extras里面的就是参数了
+
+								},
+								waiting: {
+									autoShow: true, //自动显示等待框，默认为true
+									title: 'Loading...'
+								}
+							});
+						});
+					} else {
+						//Record function type
+						var id = this.id
+						plus.storage.setItem("type", this.id);
+						var url = "transfer.html"
+						if (this.id == "deposit") {
+							url = "deposit.html"
+						} else if (this.id == "withdraw") {
+							url = "withdraw.html"
+						} else if (this.id == "transfer") {
+							url = "transfer.html"
+						}
+						mui.openWindow({
+							url: url,
+							id: url,
+							show: {
+								aniShow: 'pop-in',
+								duration: 500
+							},
+							extras: { //extras里面的就是参数了
+
+							},
+							waiting: {
+								autoShow: true, //自动显示等待框，默认为true
+								title: 'Loading...'
+							}
+						});
+					}
+				})
+			}
+
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Open Banking</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<link href="css/mui.picker.css" rel="stylesheet" />
+		<link href="css/mui.poppicker.css" rel="stylesheet" />
+		<link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="css/css.css" rel="stylesheet" />
+		<link href="css/subpage-loan.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">Loan</h1>
+		</header>
+		
+		<div class="mui-content index-box">
+			<ul class="mui-table-view mui-grid-view">
+				<li class="mui-table-view-cell mui-media mui-col-xs-6">
+					<a id="Card_Management" class="type-item">
+						<i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+						<div class="mui-media-body">Card Management</div>
+					</a></li>
+				<!-- <li class="mui-table-view-cell mui-media mui-col-xs-6">
+					<a id="Transaction_History" class="type-item">
+						<i class="fa fa-history" aria-hidden="true"></i>
+						<div class="mui-media-body">Transaction History</div>
+					</a></li> -->
+				<li class="mui-table-view-cell mui-media mui-col-xs-6">
+					<a id="Simulated_transaction" class="type-item">
+						<i class="fa fa-exchange" aria-hidden="true"></i>
+						<div class="mui-media-body">Simulated transaction</div>
+					</a></li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-6">
+					<a id="billpayment" class="type-item">
+						<i class="fa fa-list-alt" aria-hidden="true"></i>
+						<div class="mui-media-body">Bill & Payment</div>
+					</a></li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-6">
+					<a id="reward" class="type-item">
+						<i class="fa fa-cubes" aria-hidden="true"></i>
+						<div class="mui-media-body">Credit Card Reward</div>
+					</a></li>
+			</ul>
+		</div>
+		<script src="./js/mui.min.js"></script>
+		<script src="./js/main.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			// H5 plus事件处理
+			function plusReady() {
+				mui(".mui-table-view").on("tap", ".type-item", function(e) {
+					//Token check
+					token = plus.storage.getItem("token");
+					if (!token) {
+						mui.alert("Invalid login information, please try again after login.", "Error", "OK", function() {
+							mui.openWindow({
+								url: "login.html",
+								id: "login.html",
+								show: {
+									aniShow: 'pop-in',
+									duration: 500
+								},
+								extras: { //extras里面的就是参数了
+
+								},
+								waiting: {
+									autoShow: true, //自动显示等待框，默认为true
+									title: 'Loading...'
+								}
+							});
+						});
+					} else {
+						//Record function type
+						var id = this.id
+						plus.storage.setItem("type", this.id);
+						var url = "billpayment.html"
+						if (this.id == "Card_Management") {
+							url = "creditcard.html"
+						} else if (this.id == "reward") {
+							url = "creditcardreward.html"
+						} else if (this.id == "Simulated_transaction") {
+							url = "transaction.html"
+						}
+						mui.openWindow({
+							url: url,
+							id: url,
+							show: {
+								aniShow: 'pop-in',
+								duration: 500
+							},
+							extras: { //extras里面的就是参数了
+
+							},
+							waiting: {
+								autoShow: true, //自动显示等待框，默认为true
+								title: 'Loading...'
+							}
+						});
+					}
+				})
+			}
+
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			}
+		</script>
+	</body>
+</html>

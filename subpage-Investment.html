@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Open Banking</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<link href="css/mui.picker.css" rel="stylesheet" />
+		<link href="css/mui.poppicker.css" rel="stylesheet" />
+		<link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="css/css.css" rel="stylesheet" />
+		<link href="css/subpage-investment.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">Investment</h1>
+		</header>
+		
+		<div class="mui-content index-box">
+			<ul class="mui-table-view mui-grid-view">
+				<!-- <li class="mui-table-view-cell mui-media mui-col-xs-4">
+					<a id="Term_Deposit" class="type-item">
+						<i class="fa fa-podcast" aria-hidden="true"></i>
+						<div class="mui-media-body">Term Deposit</div>
+					</a></li> -->
+				<li class="mui-table-view-cell mui-media mui-col-xs-4">
+					<a id="Foreign_Exchange" class="type-item">
+						<i class="fa fa-window-restore" aria-hidden="true"></i>
+						<div class="mui-media-body">Foreign Exchange</div>
+					</a></li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4">
+					<a id="Mutual_Fund" class="type-item">
+						<i class="fa fa-ravelry" aria-hidden="true"></i>
+						<div class="mui-media-body">Mutual Fund</div>
+					</a></li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4">
+					<a id="Precious_Metal" class="type-item">
+						<i class="fa fa-cog" style="color: grey;" aria-hidden="true"></i>
+						<div class="mui-media-body">Precious Metal</div>
+					</a></li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4">
+					<a id="Stock" class="type-item">
+						<i class="fa fa-line-chart" aria-hidden="true"></i>
+						<div class="mui-media-body">Stock</div>
+					</a></li>
+			</ul>
+		</div>
+		<script src="./js/mui.min.js"></script>
+		<script src="./js/main.js"></script>
+		<script>
+			mui.init({
+				swipeBack: false
+			});
+			// H5 plus事件处理
+			function plusReady() {
+				mui(".mui-table-view").on("tap", ".type-item", function(e) {
+					//Token check
+					token = plus.storage.getItem("token");
+					if (!token) {
+						mui.alert("Invalid login information, please try again after login.", "Error", "OK", function() {
+							mui.openWindow({
+								url: "login.html",
+								id: "login.html",
+								show: {
+									aniShow: 'pop-in',
+									duration: 500
+								},
+								extras: { //extras里面的就是参数了
+
+								},
+								waiting: {
+									autoShow: true, //自动显示等待框，默认为true
+									title: 'Loading...'
+								}
+							});
+						});
+					} else {
+						//Record function type
+						var id = this.id
+						var number = ''
+						plus.storage.setItem("type", this.id);
+						var url = "deposit.html"
+						if (this.id == "Foreign_Exchange") {
+							url = "fxdetail.html"
+							number = fxaccount
+						} else if (this.id == "Mutual_Fund") {
+							url = "mutualfunddetail.html"
+							number = mutualfundaccount
+						} else if (this.id == "Precious_Metal") {
+							return false
+						} else if (this.id == "Stock") {
+							url = "stock.html"
+							number = stockaccount
+						}
+						mui.openWindow({
+							url: url,
+							id: url,
+							show: {
+								aniShow: 'pop-in',
+								duration: 500
+							},
+							extras: { //extras里面的就是参数了
+								number: number
+							},
+							waiting: {
+								autoShow: true, //自动显示等待框，默认为true
+								title: 'Loading...'
+							}
+						});
+					}
+				})
+			}
+
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			}
+		</script>
+	</body>
+</html>

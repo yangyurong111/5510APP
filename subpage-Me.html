@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="./css/mui.min.css">
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="css/css.css" rel="stylesheet" />
+		<link href="./css/subpage-Me.css" rel="stylesheet">
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<!-- <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> -->
+			<h1 class="mui-title">Me</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll">
+				<ul id="showloginbtn" class="mui-table-view">
+					<li id="submit" class="mui-table-view-cell" style="text-align: center;">
+						Login
+					</li>
+				</ul>
+				<!-- <ul id="showuserinfo" class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell mui-media">
+						<a class="mui-navigate-right" id="gotouserinfo">
+							<i class="fa fa-user-o mui-pull-left head-img" aria-hidden="true"></i>
+							<div class="mui-media-body">
+								Hello <span id="nickname"></span>
+								<p class='mui-ellipsis'>Account:<span id="account"></span></p>
+							</div>
+						</a>
+					</li>
+				</ul> -->
+				<ul id="showuserinfo" class="mui-table-view mui-table-view-chevron mui-hidden">
+					<li class="mui-table-view-cell">
+						<a id="gotouserinfo" href="#" class="mui-navigate-right">Customer information</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li id="testupdate" class="mui-table-view-cell">
+						<a>Update</a>
+					</li>
+					<li id="clearcache" class="mui-table-view-cell">
+						<a>Clear Cache</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a>Version <i class="mui-pull-right update" id="version"></i></a>
+					</li>
+				</ul>
+				<ul id="showlogout" class="mui-table-view mui-hidden">
+					<li id="logout" class="mui-table-view-cell" style="text-align: center;">
+						<a id="logout">Logout</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+	<script src="./js/mui.min.js "></script>
+	<script src="./js/moment.js"></script>
+	<script src="./js/main.js"></script>
+	<script>
+		mui.init({
+			swipeBack: false
+		});
+		var ws = null;
+		var wgtVer = null;
+		var token = null;
+		var mask = mui.createMask();
+		var checkUrl = "http://159.138.6.184/Live_Banking_System_OTA/OTAversion.txt?time="+new Date().getTime();
+		var wgtUrl = "http://159.138.6.184/Live_Banking_System_OTA/H553BEB48.wgt?time="+new Date().getTime();
+		
+		// H5 plus事件处理
+		function plusReady() {
+			ws = plus.webview.currentWebview();
+			ws.setStyle({
+				'popGesture': 'close'
+			});
+			token = plus.storage.getItem("token");
+			
+			window.addEventListener('refresh', function(e){//执行刷新
+					location.reload();
+			});
+
+			// 获取本地应用资源版本号  
+			plus.runtime.getProperty(plus.runtime.appid, function(inf) {
+				wgtVer = inf.version;
+				console.log("当前应用版本：" + wgtVer);
+				document.querySelector("#version").innerHTML = wgtVer;
+			});
+
+			window.document.getElementById("testupdate").addEventListener("click", function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				mui.confirm('Are you sure to upgrade?','Confirm',['Cancel','OK'],function (e) {
+					if(e.index == 1){
+						checkUpdate()
+					}
+				})
+			})
+			
+			window.document.getElementById("clearcache").addEventListener("click", function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				mui.confirm('Are you sure to clear the cache?','Confirm',['Cancel','OK'],function (e) {
+					if(e.index == 1){
+						plus.storage.clear();
+						plus.storage.setItem("token",token);
+						mui.alert("Cache cleared","Success","OK",function(){
+							plus.webview.getLaunchWebview().reload();
+						});
+					}
+				})
+			})
+
+			window.document.getElementById("logout").addEventListener("click", function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				mui.confirm('Are you sure want to logout?','Confirm',['Cancel','OK'],function (e) {
+					if(e.index == 1){
+						plus.storage.clear();
+						location.reload();
+					}
+				})
+			})
+
+			//Token check
+			if (!token) {
+				window.document.getElementById("submit").addEventListener("click", function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					mui.openWindow({
+						url: "login.html",
+						id: "login.html",
+						show: {
+							aniShow: 'pop-in',
+							duration: 500
+						},
+						extras: { //extras里面的就是参数了
+
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: 'Loading...'
+						}
+					});
+				});
+			} else {
+				document.querySelector("#showloginbtn").classList.add("mui-hidden");
+				document.querySelector("#showuserinfo").classList.remove("mui-hidden");
+				document.querySelector("#showlogout").classList.remove("mui-hidden");
+				// getuserinfo(savingaccount1);
+
+				window.document.getElementById("gotouserinfo").addEventListener("click", function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					mui.openWindow({
+						url: "userinfo.html",
+						id: "userinfo.html",
+						show: {
+							aniShow: 'pop-in',
+							duration: 500
+						},
+						extras: { //extras里面的就是参数了
+
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: 'Loading...'
+						}
+					});
+				})
+			}
+		}
+
+		if (window.plus) {
+			plusReady();
+		} else {
+			document.addEventListener('plusready', plusReady, false);
+		}
+		
+		// 检测更新  
+
+		function checkUpdate() {
+			plus.nativeUI.showWaiting("Detection update...");
+			mui.ajax(checkUrl,{
+				dataType:'jsonp',//服务器返回json格式数据
+				type:'get',//HTTP请求类型
+				timeout:60000,
+				headers:{
+					'accept':'*/*',
+					'Content-Type':'application/json'
+					},
+				beforeSend: function() {
+					plus.nativeUI.showWaiting("Loading…", "div");
+					mask.show();
+				},
+				complete: function() {
+					plus.nativeUI.closeWaiting();
+					mask.close();
+				},
+				success:function(data){
+					if (data) {
+						console.log("检测更新成功：" + data);
+						var newVer = data;
+						if (wgtVer && newVer && (wgtVer != newVer)) {
+							downWgt(); // 下载升级包  
+						} else {
+							mui.alert("The current application is the latest version.", "Message", "OK");
+						}
+					} else {
+						console.log("检测更新失败！");
+						mui.alert("Check update failed.", "Message", "OK");
+					}
+				},
+				error:function(xhr,type,errorThrown){
+					console.log(type);
+					console.log("检测更新失败！");
+					mui.alert("Check update failed.", "Message", "OK");
+				}
+			});
+			// var xhr = new XMLHttpRequest();
+			// xhr.onreadystatechange = function() {
+			// 	switch (xhr.readyState) {
+			// 		case 4:
+			// 			plus.nativeUI.closeWaiting();
+			// 			if (xhr.status == 200) {
+			// 				console.log("检测更新成功：" + xhr.responseText);
+			// 				var newVer = xhr.responseText;
+			// 				if (wgtVer && newVer && (wgtVer != newVer)) {
+			// 					downWgt(); // 下载升级包  
+			// 				} else {
+			// 					mui.alert("The current application is the latest version.", "Message", "OK");
+			// 				}
+			// 			} else {
+			// 				console.log("检测更新失败！");
+			// 				console.log("检测更新失败！"+xhr.response);
+			// 				console.log("检测更新失败！"+xhr.responseType);
+			// 				console.log("检测更新失败！"+xhr.statusText);
+			// 				console.log("检测更新失败！"+xhr.responseText);
+			// 				console.log("检测更新失败！"+xhr.responseXML);
+			// 				mui.alert("Check update failed.", "Message", "OK");
+			// 			}
+			// 			break;
+			// 		default:
+			// 			break;
+			// 	}
+			// }
+			// xhr.open('GET', checkUrl);
+			// xhr.send();
+		}
+
+		// 下载wgt文件
+
+		function downWgt() {
+			plus.nativeUI.showWaiting("Downloading...");
+			plus.downloader.createDownload(wgtUrl, {
+				filename: "_doc/update/"
+			}, function(d, status) {
+				if (status == 200) {
+					console.log("下载wgt成功：" + d.filename);
+					installWgt(d.filename); // 安装wgt包  
+				} else {
+					console.log("下载wgt失败！");
+					mui.alert("Failed to download update file!","Error","OK");
+				}
+				plus.nativeUI.closeWaiting();
+			}).start();
+		}
+
+		// 更新应用资源  
+		function installWgt(path) {
+			plus.nativeUI.showWaiting("Install update file...");
+			plus.runtime.install(path, {}, function() {
+				plus.nativeUI.closeWaiting();
+				console.log("安装wgt文件成功！");
+				mui.alert("Application resource update completed!","Success","OK", function() {
+					plus.storage.clear();
+					plus.runtime.restart();
+				});
+			}, function(e) {
+				plus.nativeUI.closeWaiting();
+				console.log("安装wgt文件失败[" + e.code + "]：" + e.message);
+				mui.alert("Failed to install update file[" + e.code + "]：" + e.message,"Error","OK");
+			});
+		}
+	</script>
+
+</html>
