@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Open Banking</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<link href="css/mui.picker.css" rel="stylesheet" />
+		<link href="css/mui.picker.min.css" rel="stylesheet" />
+		<link href="css/mui.poppicker.css" rel="stylesheet" />
+		<link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="css/css.css" rel="stylesheet" />
+		<link href="css/invest_detail.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar col-white mui-bar-transparent">
+			<a class="mui-action-back col-white mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title col-white"><span id="stockname">Invest Detail</span></h1>
+		</header>
+		<div id="header_box" class="mui-content col-white mui-row" style="padding: 44px 10px 10px;background-color: red;">
+			<div class="mui-col-xs-6">
+				<h2 id="lastprice">--</h2>
+				<span id="changed">--</span>
+				<span id="changedpercent">--</span>
+			</div>
+			<div class="mui-col-xs-6">
+				<h2>&nbsp;</h2>
+				<h4 id="stockcode"></h4>
+			</div>
+		</div>
+		<div class="mui-content hold-item">
+			<ul class="mui-table-view" id="stockdetail"></ul>
+		</div>
+		<div class="mui-content" style="padding: 0px 10px;">
+			<div id="echarts" style="height:450px;margin-bottom: 10px;"></div>
+		</div>
+		<div class="mui-content hold-item" style="margin-bottom: 100px;">
+			<div style="padding: 10px 5px;">
+				<div id="segmentedControl" class="mui-row">
+					<a class="mui-active mui-col-xs-6" href="#item1">Bid Price</a>
+					<a class="mui-active mui-col-xs-6" href="#item1">Ask Price</a>
+				</div>
+			</div>
+			<div>
+				<div id="item1" class="mui-active">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell mui-row" style="width: 100%;">
+							<div class="mui-col-xs-6">
+								<span>P1</span>
+								<span id="buyprice" class="col-grey" style="margin-left: 15px;">--</span>
+							</div>
+							<div class="mui-col-xs-6">
+								<span>P1</span>
+								<span id="sellprice" class="col-grey" style="margin-left: 15px;">--</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="mui-content stock-detail-bar">
+			<nav class="mui-bar mui-bar-tab">
+				<a class="mui-tab-item">
+					<div id="lastprice_bottom">--</div>
+					<div id="wave_bottom" style="font-size: 12px;">--</div>
+				</a>
+				<a class="mui-tab-item">
+					<span class="mui-tab-label showBuyDialog">Buy</span>
+				</a>
+				<a class="mui-tab-item">
+					<span class="mui-tab-label showSellDialog">Sell</span>
+				</a>
+				<a class="mui-tab-item">
+					<span class="mui-tab-label gotostocktrade">Cancel</span>
+				</a>
+				<a class="mui-tab-item">
+					<span class="mui-tab-label" style="line-height: 30px;">...</span>
+				</a>
+			</nav>
+		</div>
+		<div id="buy_dialog" class="mui-content mui-hidden">
+			<div class="dialog-header" style="height:40px;">
+				<div class="account-info mui-pull-left">Account: <span class="stockaccount">66******1234</span></div>
+				<div class="close-dialog close-Buy-dialog mui-pull-right">Close</div>
+			</div>
+			<div class="mui-row">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label>Order Type: </label>
+						<input type="text" id="ordertypebuy" value="Fix Price" readonly="readonly" placeholder="Please select order type"/>
+						<i class="fa fa-caret-down show-preset" style="pointer-events: none;" aria-hidden="true"></i>
+					</div>
+					<div id="date6_parent" class="mui-input-row">
+						<label>Expiry Date: </label>
+						<button id='date6' data-options='{"type":"date","beginYear":2014,"endYear":2019}' class="btn mui-btn mui-btn-block" style="width: 100%;">Expiry Date</button>
+						<i class="fa fa-caret-down show-preset" style="pointer-events: none;" aria-hidden="true"></i>
+					</div>
+					<div id="tradingprice_buy" class="mui-input-row">
+						<label>Price: </label>
+						<div class="mui-row mui-text-center" style="width: 65%;float:right;">
+							<div id="buy_price_minus" class="mui-numbox-btn-minus mui-left mui-col-xs-3">-<br/><span style="font-size: 9px;">0.01</span></div>
+							<input id="buy_price" class="mui-numbox-input mui-col-xs-6" placeholder="Price" type="number"  value="0.00"/>
+							<div id="buy_price_plus" class="mui-numbox-btn-plus mui-right mui-col-xs-3">+<br/><span style="font-size: 9px;">0.01</span></div>
+						</div>
+					</div>
+					<div class="mui-input-row">
+						<label>Sharing No.: </label>
+						<div class="mui-row mui-text-center" style="width: 65%;float:right;">
+							<div id="buy_number_minus" class="mui-numbox-btn-minus mui-left mui-col-xs-3">-<br/><span style="font-size: 9px;">100</span></div>
+							<input id="buy_number" class="mui-numbox-input mui-col-xs-6" placeholder="Number" type="number"  value="0.00"/>
+							<div id="buy_number_plus" class="mui-numbox-btn-plus mui-right mui-col-xs-3">+<br/><span style="font-size: 9px;">100</span></div>
+						</div>
+					</div>
+					<div class="mui-input-row">
+						<label style="width: 40%;">Settlement Account: </label>
+						<input style="width: 59%;padding-right: 30px;" type="text" id="settlementaccount_buy" readonly="readonly" placeholder="Settlement Account"/>
+						<i class="fa fa-caret-down show-preset" style="pointer-events: none;" aria-hidden="true"></i>
+					</div>
+					<div style="border-bottom: 1px solid #ddd;">
+						<ul class="mui-table-view" id="settlement_account_info_buy"></ul>
+					</div>
+				</form>
+			</div>
+			<div class="mui-row">
+				<button id="buy_btn" style="width:100%" class="mui-btn btn-danger">Buy</button>
+			</div>
+		</div>
+		<div id="sell_dialog" class="mui-content mui-hidden">
+			<div class="dialog-header" style="height: 40px;">
+				<div class="account-info mui-pull-left">Account: <span class="stockaccount">66******1234</span></div>
+				<div class="close-dialog close-Sell-dialog mui-pull-right">Close</div>
+			</div>
+			<div class="mui-row">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label>Order Type: </label>
+						<input type="text" id="ordertype" value="Fix Price" readonly="readonly" placeholder="Please select order type"/>
+						<i class="fa fa-caret-down show-preset" style="pointer-events: none;" aria-hidden="true"></i>
+					</div>
+					<div id="date5_parent" class="mui-input-row">
+						<label>Expiry Date: </label>
+						<button id='date5' data-options='{"type":"date","beginYear":2014,"endYear":2019}' class="btn mui-btn mui-btn-block" style="width: 100%;">Expiry Date</button>
+						<i class="fa fa-caret-down show-preset" style="pointer-events: none;" aria-hidden="true"></i>
+					</div>
+					<div id="tradingprice_sell" class="mui-input-row">
+						<label>Price: </label>
+						<div class="mui-row mui-text-center" style="width: 65%;float:right;">
+							<div id="sell_price_minus" class="mui-numbox-btn-minus mui-left mui-col-xs-3">-<br/><span style="font-size: 9px;">0.01</span></div>
+							<input id="sell_price" class="mui-numbox-input mui-col-xs-6" placeholder="Price" type="number"  value="0.00"/>
+							<div id="sell_price_plus" class="mui-numbox-btn-plus mui-right mui-col-xs-3">+<br/><span style="font-size: 9px;">0.01</span></div>
+						</div>
+					</div>
+					<div class="mui-input-row">
+						<label>Sharing No.: </label>
+						<div class="mui-row mui-text-center" style="width: 65%;float:right;">
+							<div id="sell_number_minus" class="mui-numbox-btn-minus mui-left mui-col-xs-3">-<br/><span style="font-size: 9px;">100</span></div>
+							<input id="sell_number" class="mui-numbox-input mui-col-xs-6" placeholder="Number" type="number"  value="0.00"/>
+							<div id="sell_number_plus" class="mui-numbox-btn-plus mui-right mui-col-xs-3">+<br/><span style="font-size: 9px;">100</span></div>
+						</div>
+					</div>
+					<div class="mui-input-row">
+						<label style="width: 40%;">Settlement Account: </label>
+						<input style="width: 59%;padding-right: 30px;" type="text" id="settlementaccount_sell" readonly="readonly" placeholder="Settlement Account"/>
+						<i class="fa fa-caret-down show-preset" style="pointer-events: none;" aria-hidden="true"></i>
+					</div>
+				</form>
+			</div>
+			<div class="mui-row">
+				<button id="sell_btn" style="width:100%" class="mui-btn btn-primary">Sell</button>
+			</div>
+		</div>
+		<script src="./js/mui.min.js"></script>
+		<script src="./js/mui.picker.js"></script>
+		<script src="./js/mui.picker.min.js"></script>
+		<script src="./js/mui.poppicker.js"></script>
+		<script src="./js/echarts.min.js" type="text/javascript"></script>
+		<script src="./js/moment.js"></script>
+		<script src="./js/main.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			var ws = null;
+			var token = null;
+			var isSafari = false
+			var stockcode = ""
+			var lotsize = 0;
+			var mask = mui.createMask();
+			var date5Time,date6Time;
+			generateTable()
+			
+			mui(".mui-content").on("tap", ".showBuyDialog", function(e) {
+				document.getElementById("buy_dialog").classList.remove("mui-hidden")
+			})
+			mui(".mui-content").on("tap", ".close-Buy-dialog", function(e) {
+				document.getElementById("buy_dialog").classList.add("mui-hidden")
+			})
+			mui(".mui-content").on("tap", ".showSellDialog", function(e) {
+				document.getElementById("sell_dialog").classList.remove("mui-hidden")
+			})
+			mui(".mui-content").on("tap", ".close-Sell-dialog", function(e) {
+				document.getElementById("sell_dialog").classList.add("mui-hidden")
+			})
+			
+			mui(".mui-content").on("tap", ".gotostocktrade", function(e) {
+				mui.openWindow({
+					url: "stocktrade.html",
+					id: "stock_cancel",
+					show: {
+						aniShow: 'pop-in',
+						duration: 500
+					},
+					extras: { //extras里面的就是参数了
+						number: "stock_cancel"
+					},
+					waiting: {
+						autoShow: true, //自动显示等待框，默认为true
+						title: 'Loading...'
+					}
+				});
+			})
+			
+			var date5 =  document.querySelector("#date5")
+			date5.innerHTML = moment.parseZone(new Date().getTime()).local().format('YYYY-MM-DD')+" 23:59"
+			date5.addEventListener('tap', function() {
+				var _self = this;
+				if(_self.picker) {
+					_self.picker.show(function (rs) {
+						date5.innerText = rs.text
+						date5Time = new Date(rs.text.replace(/[\r-]/g,"/")).getTime()
+						console.log("date5Time: "+date5Time)
+						// getcancellist(plus.storage.getItem("stockaccount"))
+					});
+				} else {
+					var options = {
+						type: "datetime",//设置日历初始视图模式 
+						beginYear: 2014,//设置开始日期 
+						endYear: 2020,//设置结束日期 
+						value: date5.innerHTML
+					};
+					var id = this.getAttribute('id');
+					
+					_self.picker = new mui.DtPicker(options);
+					_self.picker.show(function(rs) {
+						date5.innerText = rs.text;
+						date5Time = new Date(rs.text.replace(/[\r-]/g,"/")).getTime()
+						console.log("date5Time: "+date5Time)
+						// getcancellist(plus.storage.getItem("stockaccount"))
+					});
+				}
+			}, false);
+			var date6 =  document.querySelector("#date6")
+			date6.innerHTML = moment.parseZone(new Date().getTime()).local().format('YYYY-MM-DD')+" 23:59"
+			date6.addEventListener('tap', function() {
+				var _self = this;
+				if(_self.picker) {
+					_self.picker.show(function (rs) {
+						date6.innerText = rs.text
+						date6Time = new Date(rs.text.replace(/[\r-]/g,"/")).getTime()
+						console.log("date6Time: "+date6Time)
+						// getcancellist(plus.storage.getItem("stockaccount"))
+					});
+				} else {
+					var options = {
+						type: "datetime",//设置日历初始视图模式 
+						beginYear: 2014,//设置开始日期 
+						endYear: 2020,//设置结束日期 
+						value: date6.innerHTML
+					};
+					var id = this.getAttribute('id');
+					
+					_self.picker = new mui.DtPicker(options);
+					_self.picker.show(function(rs) {
+						date6.innerText = rs.text;
+						date6Time = new Date(rs.text.replace(/[\r-]/g,"/")).getTime()
+						console.log("date6Time: "+date6Time)
+						// getcancellist(plus.storage.getItem("stockaccount"))
+					});
+				}
+			}, false);
+			
+			//初始化加减按钮
+			initbuybtn(100)
+			function initbuybtn(lotsize){
+				document.getElementById("buy_price_minus").addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					if(Number(document.getElementById("buy_price").value) >= 0.01){
+						document.getElementById("buy_price").value = decimal_format(Number(document.getElementById("buy_price").value)-0.01,2)
+					}else{
+						document.getElementById("buy_price").value = decimal_format(0.00,2)
+					}
+				}, false);
+				document.getElementById("buy_price_plus").addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					document.getElementById("buy_price").value = decimal_format(Number(document.getElementById("buy_price").value)+0.01,2)
+				}, false);
+
+				document.getElementById("buy_number_minus").addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					if(Number(document.getElementById("buy_number").value) > lotsize){
+						document.getElementById("buy_number").value = Number(document.getElementById("buy_number").value)-lotsize
+					}else{
+						document.getElementById("buy_number").value = lotsize
+					}
+				}, false);
+				document.getElementById("buy_number_plus").addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					document.getElementById("buy_number").value = Number(document.getElementById("buy_number").value)+lotsize
+				}, false);
+				
+				document.getElementById("buy_btn").addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					var expiryDate = new Date(document.getElementById("date6").innerHTML.replace(/[\r-]/g,"/")).getTime();
+					var tradingPrice = document.getElementById("buy_price").value;
+					
+					if(document.getElementById("ordertypebuy").value != "Fix Price"){
+						expiryDate = ""
+						tradingPrice = ""
+					}
+					var requestdata = {
+						"expiryDate": expiryDate,
+						"orderType": document.getElementById("ordertypebuy").value,
+						"sharingNo": Number(document.getElementById("buy_number").value),
+						"stkaccountnumber": plus.storage.getItem("stockaccount"),
+						"stockCode": stockcode,
+						"tradingOption": "Buy",
+						"tradingPrice": tradingPrice
+					}
+					console.log("Buy stock request data:"+JSON.stringify(requestdata))
+					mui.ajax(host+"/stock-experience/order/orderPlacing",{
+						data: requestdata,
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:60000,
+						headers:{
+							'accept':'*/*',
+							'token':token,
+							'clientid':clientid,
+							'messageid':messageid,
+							'Content-Type':'application/json'
+							},
+						beforeSend: function() {
+							plus.nativeUI.showWaiting("Loading…", "div");
+							mask.show();
+						},
+						complete: function() {
+							plus.nativeUI.closeWaiting();
+							mask.close();
+						},
+						success:function(data){
+							console.log("Buy stock response data:"+JSON.stringify(data))
+							if (data.code == "200") {
+								mui.alert("Transaction Accepted.", "Success", "OK",function(){
+									ws.close()
+									mui.openWindow({
+										url: "stock.html",
+										id: "stock.html",
+										show: {
+											aniShow: 'pop-in',
+											duration: 500
+										},
+										extras: { //extras里面的就是参数了
+											
+										},
+										waiting: {
+											autoShow: true, //自动显示等待框，默认为true
+											title: 'Loading...'
+										}
+									});
+								})
+							} else {
+								mui.alert("Transaction failed! The respnose is: \n" + JSON.stringify(data) + ".", "Error", "OK")
+							}
+							
+							// mui.endPullupToRefresh(data.data.length > 10);
+						},
+						error:function(xhr,type,errorThrown){
+							console.log(type);
+							var msg = "Transaction failed! The respnose is: \n" + xhr.responseText + "."
+							if(type == "timeout"){
+								msg = "Transaction failed. Time out!"
+							}
+							mui.alert(msg, "Error", "OK")
+						}
+					});
+				}, false);
+			}
+			
+			initsellbtn(100)
+			function initsellbtn(lotsize){
+				document.getElementById("sell_price_minus").addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					if(Number(document.getElementById("sell_price").value) >= 0.01){
+						document.getElementById("sell_price").value = decimal_format(Number(document.getElementById("sell_price").value)-0.01,2)
+					}else{
+						document.getElementById("sell_price").value = decimal_format(0.00,2)
+					}
+				}, false);
+				document.getElementById("sell_price_plus").addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					document.getElementById("sell_price").value = decimal_format(Number(document.getElementById("sell_price").value)+0.01,2)
+			}, false);
+				document.getElementById("sell_number_minus").addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					if(Number(document.getElementById("sell_number").value) > lotsize){
+						document.getElementById("sell_number").value = Number(document.getElementById("sell_number").value)-lotsize
+					}else{
+						document.getElementById("sell_number").value = lotsize
+					}
+				}, false);
+				document.getElementById("sell_number_plus").addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					document.getElementById("sell_number").value = Number(document.getElementById("sell_number").value)+lotsize
+				}, false);
+				
+				document.getElementById("sell_btn").addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					var expiryDate = new Date(document.getElementById("date5").innerHTML.replace(/[\r-]/g,"/")).getTime();
+					var tradingPrice = document.getElementById("sell_price").value;
+					
+					if(document.getElementById("ordertype").value != "Fix Price"){
+						expiryDate = ""
+						tradingPrice = ""
+					}
+					
+					var requestdata = {
+						"expiryDate": expiryDate,
+						"orderType": document.getElementById("ordertype").value,
+						"sharingNo": Number(document.getElementById("sell_number").value),
+						"stkaccountnumber": plus.storage.getItem("stockaccount"),
+						"stockCode": stockcode,
+						"tradingOption": "Sell",
+						"tradingPrice": tradingPrice
+					}
+					console.log("Sell stock request data:"+JSON.stringify(requestdata))
+					mui.ajax(host+"/stock-experience/order/orderPlacing",{
+						data: requestdata,
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:60000,
+						headers:{
+							'accept':'*/*',
+							'token':token,
+							'clientid':clientid,
+							'messageid':messageid,
+							'Content-Type':'application/json'
+							},
+						beforeSend: function() {
+							plus.nativeUI.showWaiting("Loading…", "div");
+							mask.show();
+						},
+						complete: function() {
+							plus.nativeUI.closeWaiting();
+							mask.close();
+						},
+						success:function(data){
+							console.log("Sell stock response data:"+JSON.stringify(data))
+							if (data.code == "200") {
+								mui.alert("Transaction Accepted.", "Success", "OK",function(){
+									ws.close()
+									mui.openWindow({
+										url: "stock.html",
+										id: "stock.html",
+										show: {
+											aniShow: 'pop-in',
+											duration: 500
+										},
+										extras: { //extras里面的就是参数了
+											
+										},
+										waiting: {
+											autoShow: true, //自动显示等待框，默认为true
+											title: 'Loading...'
+										}
+									});
+								})
+							} else {
+								mui.alert("Transaction failed! The respnose is: \n" + JSON.stringify(data) + ".", "Error", "OK")
+							}
+							
+							// mui.endPullupToRefresh(data.data.length > 10);
+						},
+						error:function(xhr,type,errorThrown){
+							console.log(type);
+							var msg = "Transaction failed! The respnose is: \n" + xhr.responseText + "."
+							if(type == "timeout"){
+								msg = "Transaction failed. Time out!"
+							}
+							mui.alert(msg, "Error", "OK")
+						}
+					});
+				}, false);
+			}
+
+			var ua = window.navigator.userAgent.toLowerCase(),
+				reg = /msie|applewebkit.+safari/;
+			if (reg.test(ua)) isSafari = true
+			// H5 plus事件处理
+			function plusReady() {
+				ws = plus.webview.currentWebview();
+				ws.setStyle({
+					'popGesture': 'close'
+				});
+
+				token = plus.storage.getItem("token");
+
+				document.querySelectorAll(".stockaccount")[0].innerHTML = plus.storage.getItem("stockaccount")
+				document.querySelectorAll(".stockaccount")[1].innerHTML = plus.storage.getItem("stockaccount")
+				
+				document.getElementById("settlementaccount_buy").value = plus.storage.getItem("settlementaccount")
+				document.getElementById("settlementaccount_sell").value = plus.storage.getItem("settlementaccount")
+
+				//Token check
+				if (!token) {
+					mui.alert("Invalid login information, please try again after login.", "Error", "OK", function() {
+						mui.openWindow({
+							url: "login.html",
+							id: "login.html",
+							show: {
+								aniShow: 'pop-in',
+								duration: 500
+							},
+							extras: { //extras里面的就是参数了
+
+							},
+							waiting: {
+								autoShow: true, //自动显示等待框，默认为true
+								title: 'Loading...'
+							}
+						});
+					});
+				} else {
+					//初始化account
+					console.log(ws.number)
+					initselector()
+					getstockdetail(ws.number)
+					// getholdingbalance(plus.storage.getItem("settlementaccount"))
+				}
+			}
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			}
+
+			function getstockdetail(number) {
+				if(plus.storage.getItem("stocklist")){
+					var data = JSON.parse(plus.storage.getItem("stocklist"));
+					var str = '';
+					for(var i=0; i<data.length; i++){
+						if(data[i].id == number){
+							// str += '<li class="mui-table-view-cell" style="width:100%"><span class="stock-label">Last Trading Day</span><span>'+moment.parseZone(Number(data[i].lasttradingday)).local().format('YYYY-MM-DD HH:mm:ss')+'</span></li>';
+							str += '<li class="mui-table-view-cell"><span class="stock-label">Open</span><span>'+data[i].open+'</span></li>';
+							str += '<li class="mui-table-view-cell"><span class="stock-label">High</span><span>'+data[i].high+'</span></li>';
+							str += '<li class="mui-table-view-cell"><span class="stock-label">Low</span><span>'+data[i].low+'</span></li>';
+							str += '<li class="mui-table-view-cell"><span class="stock-label">Previous Close</span><span>'+data[i].previousclose+'</span></li>';
+							str += '<li class="mui-table-view-cell"><span class="stock-label">Last Price</span><span>'+data[i].lastprice+'</span></li>';
+							str += '<li class="mui-table-view-cell"><span class="stock-label">Volume</span><span>'+data[i].volume+'</span></li>';
+							str += '<li class="mui-table-view-cell"><span class="stock-label">Turnover</span><span>'+data[i].turnover+'</span></li>';
+							str += '<li class="mui-table-view-cell"><span class="stock-label">EPS</span><span>'+data[i].eps+'</span></li>';
+							str += '<li class="mui-table-view-cell"><span class="stock-label">P/E</span><span>'+data[i].ratio+'</span></li>';
+							str += '<li class="mui-table-view-cell"><span class="stock-label">Lot Size</span><span>'+data[i].lotsize+'</span></li>';
+							
+							document.querySelector("#stockdetail").innerHTML = str;
+							document.querySelector("#sellprice").innerHTML = data[i].sellprice;
+							document.querySelector("#buyprice").innerHTML = data[i].buyprice;
+							
+							console.log(str)
+							
+							document.querySelector("#lastprice").innerHTML = (data[i].lastprice||"--")+" HKD"
+							document.querySelector("#changed").innerHTML = data[i].changed||"--"
+							document.querySelector("#changedpercent").innerHTML = data[i].changedpercent||"--"
+							document.querySelector("#stockname").innerHTML = data[i].stockname||"--"
+							document.querySelector("#stockcode").innerHTML = data[i].stockcode||"--"
+							stockcode = data[i].stockcode
+							
+							if(data[i].changedpercent.indexOf("-") > -1){
+								document.querySelector("#wave_bottom").innerHTML = '<span class="col-red">'+data[i].changedpercent+'</span>'
+							}else{
+								document.querySelector("#wave_bottom").innerHTML = '<span class="col-green">'+data[i].changedpercent+'</span>'
+							}
+							document.querySelector("#lastprice_bottom").innerHTML = data[i].lastprice||"--"
+							document.querySelector("#buy_price").value = data[i].buyprice||"--"
+							document.querySelector("#buy_number").value = data[i].lotsize||"--"
+							document.querySelector("#sell_price").value = data[i].sellprice||"--"
+							document.querySelector("#sell_number").value = data[i].lotsize||"--"
+							// initbuybtn(data[i].lotsize)
+							lotsize = data[i].lotsize;
+							// initsellbtn(data[i].lotsize)
+							console.log(data[i].changed)
+							if(data[i].changed.indexOf("-") < 0){
+								document.getElementById("header_box").style.backgroundColor = "#52a974"
+							}else if(data[i].changed == 0){
+								document.getElementById("header_box").style.backgroundColor = "black"
+							}
+						}
+					}
+				}
+			}
+			
+			
+			function initselector(){
+				var topicker_ordertype = new mui.PopPicker();
+				topicker_ordertype.setData([
+					{value: "0",text: "Fix Price"},
+					{value: "1",text: "Market Price"}
+				]);
+				
+				var ordertype = document.getElementById('ordertype');
+				ordertype.addEventListener('tap', function(event) {
+					topicker_ordertype.show(function(items) {
+						ordertype.value = items[0].text;
+						if(items[0].value == "0"){
+							document.getElementById("date5_parent").classList.remove("mui-hidden")
+							document.getElementById("tradingprice_sell").classList.remove("mui-hidden")
+						}else{
+							document.getElementById("date5_parent").classList.add("mui-hidden")
+							document.getElementById("tradingprice_sell").classList.add("mui-hidden")
+						}
+					});
+				}, false);
+				
+				var topicker_ordertype_buy = new mui.PopPicker();
+				topicker_ordertype_buy.setData([
+					{value: "0",text: "Fix Price"},
+					{value: "1",text: "Market Price"}
+				]);
+				
+				var ordertypebuy = document.getElementById('ordertypebuy');
+				ordertypebuy.addEventListener('tap', function(event) {
+					topicker_ordertype_buy.show(function(items) {
+						ordertypebuy.value = items[0].text;
+						if(items[0].value == "0"){
+							document.getElementById("date6_parent").classList.remove("mui-hidden")
+							document.getElementById("tradingprice_buy").classList.remove("mui-hidden")
+						}else{
+							document.getElementById("date6_parent").classList.add("mui-hidden")
+							document.getElementById("tradingprice_buy").classList.add("mui-hidden")
+						}
+					});
+				}, false);
+				
+				var settlementaccountpicker_buy = new mui.PopPicker();
+				settlementaccountpicker_buy.setData(getsavingnumberpickerdata().concat(getcurrentnumberpickerdata()));
+				
+				var settlementaccount_buy = document.getElementById('settlementaccount_buy');
+				settlementaccountpicker_buy.pickers[0].setSelectedValue(plus.storage.getItem("settlementaccount"), 2000);
+				settlementaccount_buy.addEventListener('tap', function(event) {
+					settlementaccountpicker_buy.show(function(items) {
+						plus.storage.setItem("settlementaccount",items[0].text);
+						document.getElementById("settlementaccount_buy").value = items[0].text;
+						document.getElementById("settlementaccount_sell").value = items[0].text;
+						updateSettlementAccount(items[0].text);
+					});
+				}, false);
+				
+				var settlementaccountpicker_sell = new mui.PopPicker();
+				settlementaccountpicker_sell.setData(getsavingnumberpickerdata().concat(getcurrentnumberpickerdata()));
+				
+				var settlementaccount_sell = document.getElementById('settlementaccount_sell');
+				settlementaccountpicker_sell.pickers[0].setSelectedValue(plus.storage.getItem("settlementaccount"), 2000);
+				settlementaccount_sell.addEventListener('tap', function(event) {
+					settlementaccountpicker_sell.show(function(items) {
+						plus.storage.setItem("settlementaccount",items[0].text);
+						document.getElementById("settlementaccount_buy").value = items[0].text;
+						document.getElementById("settlementaccount_sell").value = items[0].text;
+						updateSettlementAccount(items[0].text);
+					});
+				}, false);
+			}
+			
+			//Generate chart
+			function generateTable(num) {
+				//creat echart object
+				var myChart = echarts.init(document.getElementById('echarts'));
+				var upColor = '#ff0000';
+				var upBorderColor = '#8A0000';
+				var downColor = '#ff0000';
+				var downBorderColor = '#008F28';
+
+				var dataCount = 200;
+				var data = generateOHLC(dataCount);
+
+				var option = {
+					dataset: {
+						source: data
+					},
+					tooltip: {
+						trigger: 'axis',
+						axisPointer: {
+							type: 'line'
+						}
+					},
+					grid: [{
+							left: '15%',
+							top: '5%',
+							right: '5%',
+							bottom: 200,
+						},
+						{
+							left: '5%',
+							right: '5%',
+							height: 80,
+							bottom: 10
+						}
+					],
+					xAxis: [{
+							type: 'category',
+							scale: true,
+							boundaryGap: false,
+							// inverse: true,
+							axisLine: {
+								onZero: false
+							},
+							splitLine: {
+								show: false
+							},
+							splitNumber: 20,
+							min: 'dataMin',
+							max: 'dataMax'
+						},
+						{
+							type: 'category',
+							gridIndex: 1,
+							scale: true,
+							boundaryGap: false,
+							axisLine: {
+								onZero: false
+							},
+							axisTick: {
+								show: false
+							},
+							splitLine: {
+								show: false
+							},
+							axisLabel: {
+								show: false
+							},
+							splitNumber: 20,
+							min: 'dataMin',
+							max: 'dataMax'
+						}
+					],
+					yAxis: [{
+							scale: true,
+							splitArea: {
+								show: true
+							}
+						},
+						{
+							scale: true,
+							gridIndex: 1,
+							splitNumber: 2,
+							axisLabel: {
+								show: false
+							},
+							axisLine: {
+								show: false
+							},
+							axisTick: {
+								show: false
+							},
+							splitLine: {
+								show: false
+							}
+						}
+					],
+					// dataZoom: [{
+					// 		type: 'inside',
+					// 		xAxisIndex: [0, 1],
+					// 		start: 10,
+					// 		end: 100
+					// 	},
+					// 	{
+					// 		show: true,
+					// 		xAxisIndex: [0, 1],
+					// 		type: 'slider',
+					// 		bottom: 10,
+					// 		start: 10,
+					// 		end: 100,
+					// 		handleIcon: 'M10.7,11.9H9.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4h1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+					// 		handleSize: '105%'
+					// 	}
+					// ],
+					visualMap: {
+						show: false,
+						seriesIndex: 1,
+						dimension: 6,
+						pieces: [{
+							value: 1,
+							color: upColor
+						}, {
+							value: -1,
+							color: downColor
+						}]
+					},
+					series: [{
+							type: 'candlestick',
+							itemStyle: {
+								color: upColor,
+								color0: downColor,
+								borderColor: upBorderColor,
+								borderColor0: downBorderColor
+							},
+							encode: {
+								x: 0,
+								y: [1, 4, 3, 2]
+							}
+						},
+						{
+							name: 'Volumn',
+							type: 'bar',
+							xAxisIndex: 1,
+							yAxisIndex: 1,
+							itemStyle: {
+								color: '#ff0000'
+							},
+							large: true,
+							encode: {
+								x: 0,
+								y: 5
+							}
+						}
+					]
+				};
+
+				function generateOHLC(count) {
+					var data = [];
+
+					var xValue = +new Date(2019, 7, 10);
+					var minute = 60*10000;
+					var baseValue = Math.random() * 12000;
+					var boxVals = new Array(4);
+					var dayRange = 24;
+
+					for (var i = 0; i < count; i++) {
+						baseValue = baseValue + Math.random() * 20 - 10;
+
+						for (var j = 0; j < 4; j++) {
+							boxVals[j] = (Math.random() - 0.5) * dayRange + baseValue;
+						}
+						boxVals.sort();
+
+						var idxRandom = Math.random();
+						var openIdx = Math.round(Math.random() * 3);
+						var closeIdx = Math.round(Math.random() * 2);
+						if (closeIdx === openIdx) {
+							closeIdx++;
+						}
+						var volumn = boxVals[3] * (1000 + Math.random() * 500);
+
+						// ['open', 'close', 'lowest', 'highest', 'volumn']
+						// [1, 4, 3, 2]
+						data[i] = [
+							echarts.format.formatTime('yyyy-MM-dd\nhh:mm:ss', xValue += minute),
+							// echarts.format.formatTime('hh:mm:ss', xValue += minute),
+							+boxVals[openIdx].toFixed(2), // open
+							+boxVals[3].toFixed(2), // highest
+							+boxVals[0].toFixed(2), // lowest
+							+boxVals[closeIdx].toFixed(2), // close
+							volumn.toFixed(0),
+							getSign(data, i, +boxVals[openIdx], +boxVals[closeIdx], 4) // sign
+						];
+					}
+
+					return data;
+
+					function getSign(data, dataIndex, openVal, closeVal, closeDimIdx) {
+						var sign;
+						if (openVal > closeVal) {
+							sign = -1;
+						} else if (openVal < closeVal) {
+							sign = 1;
+						} else {
+							sign = dataIndex > 0
+								// If close === open, compare with close of last record
+								?
+								(data[dataIndex - 1][closeDimIdx] <= closeVal ? 1 : -1)
+								// No record of previous, set to be positive
+								:
+								1;
+						}
+
+						return sign;
+					}
+				}
+				//init data
+				myChart.setOption(option);
+			}
+			function getholdingbalance(account){
+				mui.ajax(host+"/deposit-experience/deposit/account/accountDetails/"+account,{
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:60000,
+					headers:{
+						'accept':'*/*',
+						'token':token,
+						'clientid':clientid,
+						'messageid':messageid,
+						'Content-Type':'application/json'
+						},
+					beforeSend: function() {
+						plus.nativeUI.showWaiting("Loading…", "div");
+						mask.show();
+					},
+					complete: function() {
+						plus.nativeUI.closeWaiting();
+						mask.close();
+					},
+					success:function(data){
+						if (data.code == "200") {
+							var response1 = data.data;
+							var accountinfo = ""
+							var account2 = response1.account;
+							
+							// accountinfo += "<li class='mui-table-view-cell mui-text-center'><b>Account Info</b></li>"
+							
+							if (account2.accountnumber && typeof(account2.accountnumber) != "undefined") {
+								accountinfo += "<li class='mui-table-view-cell'><b>Settlement Account: </b>" + account2.accountnumber + "</li>"
+							} else {
+								accountinfo += "<li class='mui-table-view-cell'><b>Settlement Account: </b>--</li>"
+							}
+							// if (account2.availablebalance && typeof(account2.availablebalance) != "undefined") {
+							// 	accountinfo += "<li class='mui-table-view-cell'><b>Available Balance: </b>" + account2.availablebalance + " HKD</li>"
+							// } else {
+							// 	accountinfo += "<li class='mui-table-view-cell'><b>Available Balance: </b>0 HKD</li>"
+							// }
+							// if (account2.ledgerbalance && typeof(account2.ledgerbalance) != "undefined") {
+							// 	accountinfo += "<li class='mui-table-view-cell'><b>Ledger Balance: </b>" + account2.ledgerbalance + " HKD</li>"
+							// } else {
+							// 	accountinfo += "<li class='mui-table-view-cell'><b>Ledger Balance: </b>0 HKD</li>"
+							// }
+							// if (account2.holdingbalance && typeof(account2.holdingbalance) != "undefined") {
+							// 	accountinfo += "<li class='mui-table-view-cell'><b>Holding Balance: </b>" + account2.holdingbalance + " HKD</li>"
+							// } else {
+							// 	accountinfo += "<li class='mui-table-view-cell'><b>Holding Balance: </b>0 HKD</li>"
+							// }
+							// if (account2.lastupdateddate && typeof(account2.lastupdateddate) != "undefined") {
+							// 	accountinfo += "<li class='mui-table-view-cell'><b>Last Updated Time: </b>" + moment.parseZone(Number(account2.lastupdateddate)).local().format('YYYY-MM-DD HH:mm:ss') + "</li>"
+							// } else {
+							// 	accountinfo += "<li class='mui-table-view-cell'><b>Last Updated Time: </b>--</li>"
+							// }
+								
+							document.getElementById("settlement_account_info_buy").innerHTML = accountinfo;
+							document.getElementById("settlement_account_info_sell").innerHTML = accountinfo;
+							// console.log(accountinfo)
+						} else {
+							mui.alert("Get account info failed! The response is: \n" + JSON.stringify(data) + ".", "Error", "OK")
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+						var msg = "Get account info failed! The response is: \n" + xhr.responseText + "."
+						if(type == "timeout"){
+							msg = "Get account info failed. Time out!"
+						}
+						mui.alert(msg, "Error", "OK")
+					}
+				});
+			}
+			
+			function updateSettlementAccount(account){
+				var requestdata = {
+					"newsettleaccountnumber": account,
+					"stkaccountnumber": plus.storage.getItem("stockaccount")
+				}
+				mui.ajax(host+"/stock-experience/stock/settlementAccountUpdate",{
+					data: requestdata,
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:60000,
+					headers:{
+						'accept':'*/*',
+						'token':token,
+						'clientid':clientid,
+						'messageid':messageid,
+						'Content-Type':'application/json'
+						},
+					beforeSend: function() {
+						plus.nativeUI.showWaiting("Loading…", "div");
+						mask.show();
+					},
+					complete: function() {
+						plus.nativeUI.closeWaiting();
+						mask.close();
+					},
+					success:function(data){
+						if (data.code == "200") {
+							mui.alert("Update the settlement account Accepted.", "Success", "OK")
+						} else {
+							mui.alert("Update the settlement account failed! The response is: \n" + JSON.stringify(data) + ".", "Error", "OK")
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+						var msg = "Update the settlement account failed! The response is: \n" + xhr.responseText + "."
+						if(type == "timeout"){
+							msg = "Update the settlement account failed. Time out!"
+						}
+						mui.alert(msg, "Error", "OK")
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

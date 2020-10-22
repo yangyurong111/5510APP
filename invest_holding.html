@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Open Banking</title>
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<link href="css/mui.picker.css" rel="stylesheet" />
+		<link href="css/mui.picker.min.css" rel="stylesheet" />
+		<link href="css/mui.poppicker.css" rel="stylesheet" />
+		<link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="css/css.css" rel="stylesheet" />
+		<link href="css/invest_holding.css" rel="stylesheet" />
+	</head>
+	<body style="background-color: #efeff4;">
+		<style>
+			.mui-control-content {
+				background-color: white;
+				min-height: 400px;
+			}
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+		</style>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">My Holding</h1>
+		</header>
+		<div class="mui-content">
+			<div id="slider" class="mui-slider">
+				<div class="mui-slider-group">
+					<div id="item5mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll5" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									 <li class="mui-table-view-cell mui-row hold-item" id="1">
+										 <!-- <p>Earnings Today <span>(HKD)</span></p> -->
+										 <!-- <h4 class="col-green">HKD</h4> -->
+										 <div class="mui-row">
+											 <div class="mui-col-xs-6">
+												 <span class="stock-label">Total Market Value</span>
+												 <div class="" id="totalcapitalization">--</div>
+											 </div>
+											 <div class="mui-col-xs-6">
+												 <span class="stock-label">Net Gain Loss</span>
+												 <div><span id="totalprofitandloss"><span class="col-green">--</span></span></div>
+											 </div>
+										 </div>
+									 </li>
+									 <div id="holdinglist"></div>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="./js/mui.min.js"></script>
+		<script src="./js/mui.picker.js"></script>
+		<script src="./js/mui.picker.min.js"></script>
+		<script src="./js/mui.poppicker.js"></script>
+		<script src="./js/moment.js"></script>
+		<script src="./js/main.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			var ws = null;
+			var token = null;
+			var isSafari = false
+			var mask=mui.createMask();
+
+			var ua = window.navigator.userAgent.toLowerCase(),
+				reg = /msie|applewebkit.+safari/;
+			if (reg.test(ua)) isSafari = true
+			
+			mui('.mui-scroll-wrapper').scroll({
+				indicators: true //是否显示滚动条
+			});
+			
+			var array = document.getElementsByClassName("mui-control-content")
+			for(var i=0; i< array.length; i++){
+				document.getElementsByClassName("mui-control-content")[i].style.minHeight = innerHeight-82+"px"
+			}
+			
+			// H5 plus事件处理
+			function plusReady() {
+				ws = plus.webview.currentWebview();
+				ws.setStyle({
+					'popGesture': 'close'
+				});
+
+				token = plus.storage.getItem("token");
+
+
+				//Token check
+				if (!token) {
+					mui.alert("Invalid login information, please try again after login.", "Error", "OK", function() {
+						mui.openWindow({
+							url: "login.html",
+							id: "login.html",
+							show: {
+								aniShow: 'pop-in',
+								duration: 500
+							},
+							extras: { //extras里面的就是参数了
+
+							},
+							waiting: {
+								autoShow: true, //自动显示等待框，默认为true
+								title: 'Loading...'
+							}
+						});
+					});
+				} else {
+					//初始化Hold tag
+					getstockholdstatics(plus.storage.getItem("stockaccount"))
+				}
+			}
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			}
+			
+			function getstockholdstatics(account) {
+				var requestdata = {
+					"stkaccountnumber": account
+				}
+				console.log("Get Stock Holding request data:"+JSON.stringify(requestdata))
+				mui.ajax(host+"/stock-experience/stock/stockHoldingEnquiry",{
+					data:requestdata,
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:60000,
+					headers:{
+						'accept':'*/*',
+						'token':token,
+						'clientid':clientid,
+						'messageid':messageid,
+						'Content-Type':'application/json'
+						},
+					beforeSend: function() {
+						plus.nativeUI.showWaiting("Loading…", "div");
+						mask.show();
+					},
+					complete: function() {
+						plus.nativeUI.closeWaiting();
+						mask.close();
+					},
+					success:function(data){
+						if (data.code == "200") {
+							var response1 = data.data;
+							var str1 = "";
+							//Account Info
+							if (response1) {
+								var holdinglist = response1.stkholdlist;
+								var totalasset = 0,
+								totalprofitandloss = 0,
+								// totalcapitalization = decimal_format(response1.totalmarkervalue,3),
+								todayprofitandloss = 0;
+								
+								if(holdinglist.length > 0){
+									var statisticsinfo = getStatisticsInfo(response1)
+									plus.storage.setItem("stockHoldingEnquiry",JSON.stringify(holdinglist))
+									document.querySelector("#totalcapitalization").innerHTML = response1.totalmarkervalue;
+									if(response1.totalNetGainLoss.indexOf("-") < 0){
+										document.querySelector("#totalprofitandloss").innerHTML = '<span style="color:green">'+response1.totalNetGainLoss+'</span>';
+									}else{
+										document.querySelector("#totalprofitandloss").innerHTML = '<span style="color:red">'+response1.totalNetGainLoss+'</span>';
+									}
+									var str = "";
+									for(var i=0; i<holdinglist.length; i++){
+										var li = document.createElement('li');
+										li.className = 'mui-table-view-cell mui-row hold-item';
+										str = '<div class="mui-row"><div class="mui-col-xs-8">';
+										str += '<span>'+holdinglist[i].stockname+'</span>';
+										str += '<span class="stock-code">'+holdinglist[i].stockcode+'</span>';
+										str += '</div><div class="mui-col-xs-4">';
+										if(response1.totalNetGainLoss.indexOf("-") > -1){
+											str += '<span style="margin-right:10px" class="col-red">'+statisticsinfo.stockwavelist[i].earningrate+'</span>';
+											str += '<span class="col-red">'+statisticsinfo.stockwavelist[i].earnings+'</span></div></div><ul class="mui-table-view"><li class="mui-table-view-cell mui-row"><span class="stock-label">Market Price</span>';
+										}else{
+											str += '<span style="margin-right:10px" class="col-green">'+statisticsinfo.stockwavelist[i].earningrate+'</span>';
+											str += '<span class="col-green">'+statisticsinfo.stockwavelist[i].earnings+'</span></div></div><ul class="mui-table-view"><li class="mui-table-view-cell mui-row"><span class="stock-label">Market Price</span>';
+										}
+										
+										str += '<span>'+holdinglist[i].marketprice+'</span></li><li class="mui-table-view-cell mui-row"><span class="stock-label">No. of Shares</span>';
+										str += '<span>'+holdinglist[i].sharesholdingno+'</span></li><li class="mui-table-view-cell mui-row"><span class="stock-label">Average Price</span>';
+										str += '<span>'+holdinglist[i].averageprice+'</span></li><li class="mui-table-view-cell mui-row"><span class="stock-label">Available No.</span>';
+										str += '<span>'+holdinglist[i].availableshare+'</span></li><li class="mui-table-view-cell mui-row"><span class="stock-label">Market Value</span>';
+										str += '<span>'+holdinglist[i].marketvalue+'</span></li></ul>';
+										
+										li.innerHTML = str;
+										document.querySelector("#holdinglist").appendChild(li);
+									}
+								}
+								// console.log("holdinglist: "+document.querySelector("#holdinglist").innerHTML)
+							} else {
+								// mui.alert("Get holding list failed! The response is: \n" + JSON.stringify(data) + ".", "Error", "OK")
+								document.querySelector("#totalcapitalization").innerHTML = "0 HKD";
+								document.querySelector("#totalprofitandloss").innerHTML = '<span style="color:green">0 HKD</span>';
+								document.querySelector("#holdinglist").innerHTML = '<li class="mui-table-view-cell mui-text-center hold-item">No Data</li>';
+							}
+						} else {
+							// mui.alert("Get holding list failed! The response is: \n" + JSON.stringify(data) + ".", "Error", "OK")
+							document.querySelector("#totalcapitalization").innerHTML = "0 HKD";
+							document.querySelector("#totalprofitandloss").innerHTML = '<span style="color:green">0 HKD</span>';
+							document.querySelector("#holdinglist").innerHTML = '<li class="mui-table-view-cell mui-text-center hold-item">No Data</li>';
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+						var msg = "Get holding list failed! The response is: \n" + xhr.responseText + "."
+						if(type == "timeout"){
+							msg = "Get holding list failed. Time out!"
+						}
+						if(typeof(JSON.parse(xhr.responseText)) == "object" && JSON.parse(xhr.responseText).code == "404017"){
+							console.log(JSON.parse(xhr.responseText).error)
+							document.querySelector("#totalcapitalization").innerHTML = "0 HKD";
+							document.querySelector("#totalprofitandloss").innerHTML = '<span style="color:green">0 HKD</span>';
+							document.querySelector("#holdinglist").innerHTML = '<li class="mui-table-view-cell mui-text-center hold-item">No Data</li>';
+						}else if(typeof(JSON.parse(xhr.responseText)) == "object" && JSON.parse(xhr.responseText).code == "404015"){
+							console.log(JSON.parse(xhr.responseText).error)
+							document.querySelector("#totalcapitalization").innerHTML = "0 HKD";
+							document.querySelector("#totalprofitandloss").innerHTML = '<span style="color:green">0 HKD</span>';
+							document.querySelector("#holdinglist").innerHTML = '<li class="mui-table-view-cell mui-text-center hold-item">No Data</li>';
+						}else{
+							mui.alert(msg, "Error", "OK")
+						}
+					}
+				});
+			}
+			
+			function getStatisticsInfo(data) {
+				var holdinglist = data.stkholdlist;
+				var totalmarketvalue = data.totalmarkervalue;
+				var result = {
+					totalprofitandloss:0,
+					totalearningrate:0,
+					stockwavelist:[]
+					};
+				var num = 0;
+				for(var i=0; i<holdinglist.length; i++){
+					result.stockwavelist[i] = {};
+					
+					result.stockwavelist[i].earningrate = toPercent((holdinglist[i].marketprice - holdinglist[i].averageprice)/holdinglist[i].averageprice);
+					
+					result.stockwavelist[i].earnings = decimal_format(holdinglist[i].marketvalue - (holdinglist[i].averageprice * holdinglist[i].sharesholdingno),3);
+					
+					result.totalprofitandloss += Number(result.stockwavelist[i].earnings);
+					
+					num += holdinglist[i].averageprice * holdinglist[i].sharesholdingno;
+				}
+				result.totalearningrate = toPercent((totalmarketvalue - num)/num);
+				result.totalprofitandloss = decimal_format(result.totalprofitandloss,3)
+				return result;
+			}
+		</script>
+	</body>
+</html>
