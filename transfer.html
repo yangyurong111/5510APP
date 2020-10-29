@@ -19,30 +19,76 @@
 		<div class="mui-content">
 			<div class="mui-card" style="padding: 20px;">
 				<form class="form-horizontal">
+					<!-- 
 					<div class="form-group">
-						<label for="fromaccountlist" class="col-sm-4 control-label search-label">From: </label>
+						<label for="fromaccountlist" class="col-sm-4 control-label search-label">From Account : </label>
 						<div class="col-sm-8 search-input">
 							<span id="fromaccountlist" class="form-control">--</span>
 						</div>
 					</div>
+					-->
 					<div class="form-group">
-						<label for="toaccountlist" class="col-sm-4 control-label search-label">To: </label>
+						<label for="fromaccountlist" class="col-sm-6 control-label deposit-label">From Account: </label>
+						<div class="col-sm-6 deposit-input">
+							<span class="form-control" id="tdAccountNumberlist">--</span>
+						</div>
+					</div>
+					
+					<!-- 
+					<div class="form-group">
+						<label for="toaccountlist" class="col-sm-4 control-label search-label">To Account : </label>
 						<div class="col-sm-8 search-input">
 							<span id="toaccountlist" class="form-control">--</span>
 						</div>
 					</div>
+					-->
 					<div class="form-group">
-						<label for="currency" class="col-sm-4 control-label search-label">Currency: </label>
+						<label for="toaccountlist" class="col-sm-6 control-label deposit-label">To Account: </label>
+						<div class="col-sm-6 deposit-input">
+							<span class="form-control" id="toaccountlist">--</span>
+						</div>
+					</div>
+					
+					<!--
+					<div class="form-group">
+						<label for="amount" class="col-sm-4 control-label search-label">Amount : </label>
+						<div class="col-sm-8 search-input">							
+							<input type="number" id="amount" placeholder="10000" class="form-control" onkeyup="clearNoNum(this)" />
+						</div>
+					</div>
+					-->
+					<div class="form-group">
+						<label for="amount" class="col-sm-6 control-label deposit-label">Transfer Amount: </label>
+						<div class="col-sm-6 deposit-input">
+							<input type="text" class="form-control" id="amount" onkeyup="clearNoNum(this)" required="true" placeholder="Transfer Amount"
+							 value="10000">
+						</div>
+					</div>
+					
+					<!--
+					<div class="form-group">
+						<label for="currency" class="col-sm-4 control-label search-label">Transfer Currency : </label>
 						<div class="col-sm-8 search-input">
 							<span id="currency" class="form-control">HKD</span>
 						</div>
 					</div>
+					-->
 					<div class="form-group">
-						<label for="amount" class="col-sm-4 control-label search-label">Amount: </label>
-						<div class="col-sm-8 search-input">
-							<input type="number" id="amount" placeholder="0.00" class="form-control" onkeyup="clearNoNum(this)" />
+						<label for="currency" class="col-sm-6 control-label deposit-label">Transfer Currency: </label>
+						<div class="col-sm-6 deposit-input">
+							<span class="form-control" id="currency">HKD</span>
 						</div>
 					</div>
+					
+					<div class="form-group">
+						<label for="tdContractPeriod" class="col-sm-6 control-label deposit-label">Contract Period: </label>
+						<div class="col-sm-6 deposit-input">
+							<span class="form-control" id="tdContractPeriod">3months</span>
+						</div>
+					</div>
+					
+					
+					
 					<div class="form-group">
 						<div class="col-sm-offset-4 col-sm-8 mui-text-center search-btn">
 							<button id="submit" class="btn btn-primary">Submit</button>

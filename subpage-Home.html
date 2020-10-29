@@ -25,33 +25,33 @@
 		<div class="mui-content total-account">
 			<div class="mui-card">
 					<div class="mui-card-header">Total Account($)</div>
-					<div class="mui-card-content"><center>999.99</center></div>
+					<div class="mui-card-content" onclick="openAccount()"><center>999.99</center></div>
 			</div>
 		</div>
 		<div class="mui-content index-box">
 			<ul class="mui-table-view mui-grid-view">			
 				<li class="mui-table-view-cell mui-media mui-col-xs-4">
-					<a id="deposit" class="type-item">
+					<a id="deposit" class="type-item" href="deposit.html">
 						<img class="mui-media-object" src="./images/deposit.png">
-						<div class="mui-media-body">Deposit</div>
+						<div class="mui-media-body" onclick="openDeposit()">Deposit</div>
 					</a></li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4">
-					<a id="withdraw" class="type-item">
+					<a id="withdraw" class="type-item" href="withdraw.html">
 						<img class="mui-media-object" src="./images/cash.png">
-						<div class="mui-media-body">Withdraw</div>
+						<div class="mui-media-body" onclick="openWithdraw()">Withdraw</div>
 					</a></li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4">
-					<a id="transfer" class="type-item">
+					<a id="transfer" class="type-item" href="transfer.html">
 						<img class="mui-media-object" src="./images/search.png">
-						<div class="mui-media-body">Transfer</div>
+						<div class="mui-media-body" onclick="openTransfer()">Transfer</div>
 					</a></li>
 			</ul>
 		</div>
 		
-		<!-- <div class="mui-content fast-ntry">
+		<div class="mui-content fast-ntry">
 			<ul class="mui-table-view mui-grid-view">
 				<li class="mui-table-view-cell mui-media mui-col-xs-3">
-					<a id="account_detail" class="enter-list">
+					<a id="account_detail" class="enter-list" href="account_detail.html">
 						<i class="fa fa-university" aria-hidden="true"></i>
 						<div class="mui-media-body">Account Detail</div>
 					</a></li>
@@ -97,7 +97,7 @@
 					</a></li>
 			</ul>
 		</div>
-		 -->
+		
 		<script src="./js/mui.min.js"></script>
 		<script src="./js/main.js"></script>
 		<script>
@@ -236,6 +236,34 @@
 			} else {
 				document.addEventListener('plusready', plusReady, false);
 			}
+			function openAccount(){
+			    mui.openWindow({
+				url    : 'account_detail.html',
+				extras :
+				{}
+			    });
+			}
+			function openDeposit(){
+						    mui.openWindow({
+							url    : 'deposit.html',
+							extras :
+							{}
+						    });
+						}
+			function openWithdraw(){
+						    mui.openWindow({
+							url    : 'withdraw.html',
+							extras :
+							{}
+						    });
+						}
+			function openTransfer(){
+						    mui.openWindow({
+							url    : 'transfer.html',
+							extras :
+							{}
+						    });
+						}						
 		</script>
 	</body>
 </html>

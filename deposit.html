@@ -23,14 +23,16 @@
 		<div class="mui-content">
 			<div class="mui-card" style="padding: 20px;">
 				<form class="form-horizontal">
+					<!-- 
 					<div class="form-group">
 						<label for="debitAccountNumberlist" class="col-sm-6 control-label deposit-label">Debit Account: </label>
 						<div class="col-sm-6 deposit-input">
 							<span class="form-control" id="debitAccountNumberlist">--</span>
 						</div>
 					</div>
+					-->
 					<div class="form-group">
-						<label for="tdAccountNumberlist" class="col-sm-6 control-label deposit-label">Term Deposit Account: </label>
+						<label for="tdAccountNumberlist" class="col-sm-6 control-label deposit-label"> Account: </label>
 						<div class="col-sm-6 deposit-input">
 							<span class="form-control" id="tdAccountNumberlist">--</span>
 						</div>
@@ -43,7 +45,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="tdCcy" class="col-sm-6 control-label deposit-label">Term Deposit Currency: </label>
+						<label for="tdCcy" class="col-sm-6 control-label deposit-label"> Deposit Currency: </label>
 						<div class="col-sm-6 deposit-input">
 							<span class="form-control" id="tdCcy">HKD</span>
 						</div>
@@ -54,14 +56,23 @@
 							<span class="form-control" id="tdContractPeriod">3months</span>
 						</div>
 					</div>
-					<!-- <div class="form-group">
+					<!-- 
+					<div class="form-group">
 						<label for="entryDate" class="control-label">Entry Date: </label>
 						<div id="entryDate" style="padding: 5px 10px;" class="search-input">--</div>
-					</div> -->
+					</div> 
+					-->
 					<div class="form-group">
+						<!-- 
+						// original code
 						<div class="col-sm-offset-4 col-sm-8 mui-text-center deposit-btn">
 							<button id="deposit" class="btn btn-primary">Deposit</button>
 						</div>
+						-->
+						<div class="col-sm-offset-4 col-sm-8 mui-text-center search-btn">
+							<button id="submit" class="btn btn-primary">Submit</button>
+						</div>
+						
 					</div>
 				</form>
 			</div>
@@ -407,6 +418,10 @@
 				}, false);
 			}
 		</script>
-		
+	
+	
+	
+	
 	</body>
+	
 </html>
