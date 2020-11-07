@@ -8,47 +8,85 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet" />
 		<link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 		<link href="css/css.css" rel="stylesheet" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link href="css/mui.picker.css" rel="stylesheet" />
+		<link href="css/mui.poppicker.css" rel="stylesheet" />
 		<link href="css/subpage-home.css" rel="stylesheet" />
-	</head>
+		<!-- <link href="css/subpage-investment.css" rel="stylesheet" /> -->
 	<body>
-		<header class="mui-bar mui-bar-transparent">
-			<!-- <div class="mui-input-row mui-search">
-				<input type="search" class="mui-input-clear" placeholder="">
-			</div>
-			<div class="customer-service">
-				<i class="fa fa-headphones" aria-hidden="true"></i>
-			</div>
-			<div class="message">
-				<i class="fa fa-commenting-o" aria-hidden="true"></i>
-			</div> -->
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">Home</h1>
 		</header>
-		<div class="mui-content total-account">
+		<!-- <div class="mui-content total-account">
 			<div class="mui-card">
 					<div class="mui-card-header">Total Account($)</div>
 					<div class="mui-card-content" onclick="openAccount()"><center>999.99</center></div>
 			</div>
 		</div>
+		 -->
+				<div class="mui-content total-asset">
+					<div class="head-box"></div>
+					<div class="head-body">
+						<div class="flex">
+							<div class="flex-box">
+								<h2>Total Asset: </h2>
+							</div>
+						</div>
+						<div class="flex">
+							<div class="flex-box">
+								<h1>66,892.29<i>(HKD)</i></h1>
+								<p>Saving + Investment - Loan</p>
+							</div>
+							<button type="button" class="mui-btn mui-btn-danger" onclick="openAccount()">more detail</button>
+						</div>
+					</div>
+				
+					<div class="mui-content chart-area">					
+						<div class="mask"></div>
+						<div class="mui-text-center account-info">
+							<div class="mui-row">
+								<a class="mui-col-xs-4 mui-text-center" href="account_detail.html">
+									<h4 id="current_number_header">54892.29</h4>
+									<h5 class="color-grey">Saving</h5>
+									<p><span class="dot"></span></p>
+								</a>
+								<a class="mui-col-xs-4 mui-text-center" href="account_detail.html">
+									<h4 id="saving_number_header">27,000.00</h4>
+									<h5 class="color-grey">Investment</h5>
+									<p><span class="dot"></span></p>
+								</a>
+								<a class="mui-col-xs-4 mui-text-center" href="account_detail.html">
+									<h4 id="payment_number_header">15,000.00</h4>
+									<h5 class="color-grey">Loan</h5>
+									<p><span class="dot"></span></p>
+								</a>
+							</div>
+						</div>
+					</div>
+					</div>
+						
+						
 		<div class="mui-content index-box">
 			<ul class="mui-table-view mui-grid-view">			
 				<li class="mui-table-view-cell mui-media mui-col-xs-4">
 					<a id="deposit" class="type-item" href="deposit.html">
 						<img class="mui-media-object" src="./images/deposit.png">
-						<div class="mui-media-body" onclick="openDeposit()">Deposit</div>
+						<div class="mui-media-body" style="font-size: 15px;" onclick="openDeposit()">Deposit</div>
 					</a></li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4">
 					<a id="withdraw" class="type-item" href="withdraw.html">
 						<img class="mui-media-object" src="./images/cash.png">
-						<div class="mui-media-body" onclick="openWithdraw()">Withdraw</div>
+						<div class="mui-media-body" style="font-size: 15px;" onclick="openWithdraw()">Withdraw</div>
 					</a></li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4">
 					<a id="transfer" class="type-item" href="transfer.html">
 						<img class="mui-media-object" src="./images/search.png">
-						<div class="mui-media-body" onclick="openTransfer()">Transfer</div>
+						<div class="mui-media-body" style="font-size: 15px;" onclick="openTransfer()">Transfer</div>
 					</a></li>
 			</ul>
 		</div>
 		
-		<div class="mui-content fast-ntry">
+		<!-- <div class="mui-content fast-ntry">
 			<ul class="mui-table-view mui-grid-view">
 				<li class="mui-table-view-cell mui-media mui-col-xs-3">
 					<a id="account_detail" class="enter-list" href="account_detail.html">
@@ -56,9 +94,9 @@
 						<div class="mui-media-body">Account Detail</div>
 					</a></li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-3">
-					<a id="account_detail_sdk" class="enter-list">
+					<a id="account_detail_sdk" class="enter-list" href="loan_detail.html">
 						<i class="fa fa-pie-chart" aria-hidden="true"></i>
-						<div class="mui-media-body">Account Detail(SDK)</div>
+						<div class="mui-media-body">Loan Detail</div>
 					</a></li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-3">
 					<a id="account_overview_graphql" class="enter-list">
@@ -97,145 +135,11 @@
 					</a></li>
 			</ul>
 		</div>
-		
+		 -->
 		<script src="./js/mui.min.js"></script>
-		<script src="./js/main.js"></script>
+		<!-- <script src="./js/main.js"></script> -->
 		<script>
-			mui.init({
-				swipeBack: true
-			});
-			var ws = null;
-			var token = null;
-			// H5 plus事件处理
-			function plusReady() {
-				ws = plus.webview.currentWebview();
-				ws.setStyle({
-					'popGesture': 'close'
-				});
 
-				// var slider = mui("#slider").slider({
-				// 	interval: 5000
-				// });
-				// var sliderNews = mui("#sliderNews").slider({
-				// 	interval: 3000
-				// });
-				// var sliderExtension = mui("#sliderExtension").slider({
-				// 	interval: 4000
-				// });
-				
-				// mui(".mui-table-view").on("tap", ".enter-list", function(e) {
-				// 	//Token check
-				// 	token = plus.storage.getItem("token");
-				// 	if (!token) {
-				// 		mui.alert("Invalid login information, please try again after login.", "Error", "OK", function() {
-				// 			mui.openWindow({
-				// 				url: "login.html",
-				// 				id: "login.html",
-				// 				show: {
-				// 					aniShow: 'pop-in',
-				// 					duration: 500
-				// 				},
-				// 				extras: { //extras里面的就是参数了
-
-				// 				},
-				// 				waiting: {
-				// 					autoShow: true, //自动显示等待框，默认为true
-				// 					title: 'Loading...'
-				// 				}
-				// 			});
-				// 		});
-				// 	} else {
-				// 		//Record function type
-				// 		var id = this.id
-				// 		plus.storage.setItem("type", this.id);
-				// 		var url = "transfer.html"
-				// 		if (this.id == "account_detail") {
-				// 			url = "accountinfo.html"
-				// 		} else if (this.id == "account_detail_sdk") {
-				// 			window.sessionStorage.setItem("refresh",0)
-				// 			url = "accountinfosdk.html"
-				// 		} else if (this.id == "creadit_card") {
-				// 			url = "creditcard.html"
-				// 		} else if (this.id == "account_overview") {
-				// 			url = "accountoverview.html"
-				// 		} else if (this.id == "account_overview_graphql") {
-				// 			url = "accountoverviewgraphql.html"
-				// 		}
-				// 		mui.openWindow({
-				// 			url: url,
-				// 			id: url,
-				// 			show: {
-				// 				aniShow: 'pop-in',
-				// 				duration: 500
-				// 			},
-				// 			extras: { //extras里面的就是参数了
-
-				// 			},
-				// 			waiting: {
-				// 				autoShow: true, //自动显示等待框，默认为true
-				// 				title: 'Loading...'
-				// 			}
-				// 		});
-				// 	}
-				// })
-
-				mui(".mui-table-view").on("tap", ".type-item", function(e) {
-					//Token check
-					token = plus.storage.getItem("token");
-					if (!token) {
-						mui.alert("Invalid login information, please try again after login.", "Error", "OK", function() {
-							mui.openWindow({
-								url: "login.html",
-								id: "login.html",
-								show: {
-									aniShow: 'pop-in',
-									duration: 500
-								},
-								extras: { //extras里面的就是参数了
-
-								},
-								waiting: {
-									autoShow: true, //自动显示等待框，默认为true
-									title: 'Loading...'
-								}
-							});
-						});
-					} else {
-						//Record function type
-						var id = this.id
-						plus.storage.setItem("type", this.id);
-						var url = "transfer.html"
-						if (this.id == "deposit") {
-							url = "deposit.html"
-						} else if (this.id == "withdraw") {
-							url = "withdraw.html"
-						} else if (this.id == "transfer") {
-							url = "transfer.html"
-						}
-						mui.openWindow({
-							url: url,
-							id: url,
-							show: {
-								aniShow: 'pop-in',
-								duration: 500
-							},
-							extras: { //extras里面的就是参数了
-
-							},
-							waiting: {
-								autoShow: true, //自动显示等待框，默认为true
-								title: 'Loading...'
-							}
-						});
-					}
-				})
-			}
-
-			if (window.plus) {
-				plusReady();
-			} else {
-				document.addEventListener('plusready', plusReady, false);
-			}
 			function openAccount(){
 			    mui.openWindow({
 				url    : 'account_detail.html',
@@ -243,6 +147,7 @@
 				{}
 			    });
 			}
+			
 			function openDeposit(){
 						    mui.openWindow({
 							url    : 'deposit.html',
@@ -250,6 +155,7 @@
 							{}
 						    });
 						}
+						
 			function openWithdraw(){
 						    mui.openWindow({
 							url    : 'withdraw.html',
@@ -257,13 +163,15 @@
 							{}
 						    });
 						}
+						
 			function openTransfer(){
 						    mui.openWindow({
 							url    : 'transfer.html',
 							extras :
 							{}
 						    });
-						}						
+						}	
+											
 		</script>
 	</body>
 </html>

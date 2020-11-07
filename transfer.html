@@ -28,9 +28,9 @@
 					</div>
 					-->
 					<div class="form-group">
-						<label for="fromaccountlist" class="col-sm-6 control-label deposit-label">From Account: </label>
+						<label for="fromaccountlist" class="col-sm-6 control-label deposit-label" style="font-size: 15px;">From Account: </label>
 						<div class="col-sm-6 deposit-input">
-							<span class="form-control" id="tdAccountNumberlist">--</span>
+							<input class="form-control" id="tdAccountNumberlist" required="true" placeholder="Please input account number">
 						</div>
 					</div>
 					
@@ -43,9 +43,9 @@
 					</div>
 					-->
 					<div class="form-group">
-						<label for="toaccountlist" class="col-sm-6 control-label deposit-label">To Account: </label>
+						<label for="toaccountlist" class="col-sm-6 control-label deposit-label" style="font-size: 15px;">To Account: </label>
 						<div class="col-sm-6 deposit-input">
-							<span class="form-control" id="toaccountlist">--</span>
+							<input class="form-control" id="toaccountlist" required="true" placeholder="Please input account number">
 						</div>
 					</div>
 					
@@ -58,10 +58,9 @@
 					</div>
 					-->
 					<div class="form-group">
-						<label for="amount" class="col-sm-6 control-label deposit-label">Transfer Amount: </label>
+						<label for="amount" class="col-sm-6 control-label deposit-label" style="font-size: 15px;">Transfer Amount: </label>
 						<div class="col-sm-6 deposit-input">
-							<input type="text" class="form-control" id="amount" onkeyup="clearNoNum(this)" required="true" placeholder="Transfer Amount"
-							 value="10000">
+							<input type="text" class="form-control" id="amount" required="true" placeholder="Please input transfer amount">
 						</div>
 					</div>
 					
@@ -74,24 +73,15 @@
 					</div>
 					-->
 					<div class="form-group">
-						<label for="currency" class="col-sm-6 control-label deposit-label">Transfer Currency: </label>
+						<label for="currency" class="col-sm-6 control-label deposit-label" style="font-size: 15px;">Transfer Currency: </label>
 						<div class="col-sm-6 deposit-input">
 							<span class="form-control" id="currency">HKD</span>
 						</div>
 					</div>
 					
 					<div class="form-group">
-						<label for="tdContractPeriod" class="col-sm-6 control-label deposit-label">Contract Period: </label>
-						<div class="col-sm-6 deposit-input">
-							<span class="form-control" id="tdContractPeriod">3months</span>
-						</div>
-					</div>
-					
-					
-					
-					<div class="form-group">
 						<div class="col-sm-offset-4 col-sm-8 mui-text-center search-btn">
-							<button id="submit" class="btn btn-primary">Submit</button>
+							<button id="submit" class="btn btn-primary" style="font-size: 20px;margin: 10px;">Submit</button>
 						</div>
 					</div>
 				</form>

@@ -1,18 +1,1027 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="utf-8">
-		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link href="css/mui.css" rel="stylesheet" />
+		<title>Open Banking</title>
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<link href="css/mui.picker.css" rel="stylesheet" />
+		<link href="css/mui.picker.min.css" rel="stylesheet" />
+		<link href="css/mui.poppicker.css" rel="stylesheet" />
+		<link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="css/css.css" rel="stylesheet" />
+		<link href="css/account_detail.css" rel="stylesheet" />
 	</head>
+	<body style="background-color: #efeff4;">
+		<style>
+			.mui-control-content {
+				background-color: white;
+				min-height: 400px;
+			}
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+		</style>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">Asset Detail</h1>
+		</header>
+		<div class="mui-content">
+			<div id="slider" class="mui-slider">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item" href="#item1mobile">
+						Saving
+					</a>
+					<a class="mui-control-item" href="#item2mobile">
+						Investment
+					</a>
+					<a class="mui-control-item" href="#item3mobile">
+						Loan
+					</a>
+				</div>
+				<div id="sliderProgressBar" class="mui-slider-progress-bar"></div>
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-row stock-tools">
+									<div class="mui-col-xs-6">
+										<h5>From</h5>
+										<button id='date1' data-options='{"value":"2020-10-01 00:00","beginYear":2014,"endYear":2019}' class="btn mui-btn mui-btn-block">From Date</button>
+									</div>
+									<div class="mui-col-xs-6">
+										<h5>To</h5>
+										<button id='date2' data-options='{"value":"2020-10-02 00:00","beginYear":2014,"endYear":2019}' class="btn mui-btn mui-btn-block">To Date</button>
+									</div>
+								</div>
+								<div class="mui-row stock-tools">
+									<div class="mui-col-xs-3 mui-text-center">Name</div>
+									<div class="mui-col-xs-3 mui-text-center">Rate</div>
+									<div class="mui-col-xs-3 mui-text-center">Amount</div>
+									<div class="mui-col-xs-3 mui-text-center">Due Date</div>
+								</div>
+								<ul class="mui-table-view" id="order_list_cancel"></ul>
+							</div>
+						</div>
+					</div>
+					
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-row stock-tools">
+									<div class="mui-col-xs-6">
+										<h5>From</h5>
+										<button id='date3' data-options='{"value":"2020-10-01 00:00","beginYear":2014,"endYear":2019}' class="btn mui-btn mui-btn-block">From Date</button>
+									</div>
+									<div class="mui-col-xs-6">
+										<h5>To</h5>
+										<button id='date4' data-options='{"value":"2020-10-02 00:00","beginYear":2014,"endYear":2019}' class="btn mui-btn mui-btn-block">To Date</button>
+									</div>
+								</div>
+								<div class="mui-row stock-tools">
+									<div class="mui-col-xs-3 mui-text-center">Name</div>
+									<div class="mui-col-xs-3 mui-text-center">Rate</div>
+									<div class="mui-col-xs-3 mui-text-center">Amount</div>
+									<div class="mui-col-xs-3 mui-text-center">Due Date</div>
+								</div>
+								<ul class="mui-table-view" id="order_list_cancel"></ul>
+							</div>
+						</div>
+					</div>
+					
+					<div id="item3mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll3" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-row stock-tools">
+									<div class="mui-col-xs-6">
+										<h5>From</h5>
+										<button id='date5' data-options='{"value":"2020-10-01 00:00","beginYear":2014,"endYear":2019}' class="btn mui-btn mui-btn-block">From Date</button>
+									</div>
+									<div class="mui-col-xs-6">
+										<h5>To</h5>
+										<button id='date6' data-options='{"value":"2020-10-02 00:00","beginYear":2014,"endYear":2019}' class="btn mui-btn mui-btn-block">To Date</button>
+									</div>
+								</div>
+								<div class="mui-row stock-tools">
+									<div class="mui-col-xs-3 mui-text-center">Name</div>
+									<div class="mui-col-xs-3 mui-text-center">Rate</div>
+									<div class="mui-col-xs-3 mui-text-center">Amount</div>
+									<div class="mui-col-xs-3 mui-text-center">Due Date</div>
+								</div>
+								<ul class="mui-table-view" id="order_list_cancel"></ul>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<script src="./js/mui.min.js"></script>
+		<script src="./js/mui.picker.js"></script>
+		<script src="./js/mui.picker.min.js"></script>
+		<script src="./js/mui.poppicker.js"></script>
+		<script src="./js/moment.js"></script>
+		<script src="./js/main.js"></script>
+		<script src="./js/stocklist.js"></script>
+		<script>
+			mui.init({
+				swipeBack: false
+			});
+			var ws = null;
+			var token = null;
+			var isSafari = false
+			var mask=mui.createMask();
+			var lotsize = 0;
+			var step = 2;
+			var stepnum = 0.01;
+			var avaliblesharingno = 0;
+			var date1Time,date2Time,date3Time,date4Time,date5Time,date6Time;
 
-	<body>
-		<script src="js/mui.js"></script>
-		<script type="text/javascript">
-			mui.init()
+			var ua = window.navigator.userAgent.toLowerCase(),
+				reg = /msie|applewebkit.+safari/;
+			if (reg.test(ua)) isSafari = true
+			
+			mui('.mui-scroll-wrapper').scroll({
+				indicators: true //是否显示滚动条
+			});
+			
+			window.addEventListener('refresh', function(e){//执行刷新
+				if(plus.storage.getItem("refresh") == "1"){
+					plus.storage.setItem("refresh","0")
+					//初始化Cancel tag
+					getcancellist(plus.storage.getItem("stockaccount"))
+					
+					//初始化Order tag
+					getorderlist(plus.storage.getItem("stockaccount"))
+					
+					//初始化Hold tag
+					getstockholdstatics(plus.storage.getItem("stockaccount"))
+				}
+				return false;
+			});
+			
+			var array = document.getElementsByClassName("mui-control-content")
+			for(var i=0; i< array.length; i++){
+				document.getElementsByClassName("mui-control-content")[i].style.minHeight = innerHeight-82+"px"
+			}
+			
+			
+			//初始化日期控件
+			var date1 =  document.querySelector("#date1")
+			date1.innerHTML = moment.parseZone(new Date().getTime()).local().format('YYYY-MM-DD')+" 00:00"
+			date1.addEventListener('tap', function() {
+				var _self = this;
+				if(_self.picker) {
+					_self.picker.show(function (rs) {
+						date1.innerText = rs.text;
+						date1Time = new Date(rs.text.replace(/[\r-]/g,"/")).getTime()
+						console.log("date1Time: "+date1Time)
+						// getorderlist(plus.storage.getItem("stockaccount"))
+					});
+				} else {
+					var options = {
+						type: "datetime",//设置日历初始视图模式 
+						beginYear: 2014,//设置开始日期 
+						endYear: 2020,//设置结束日期 
+						value: date1.innerHTML
+					};
+					var id = this.getAttribute('id');
+					
+					_self.picker = new mui.DtPicker(options);
+					_self.picker.show(function(rs) {
+						date1.innerText = rs.text;
+						date1Time = new Date(rs.text.replace(/[\r-]/g,"/")).getTime()
+						console.log("date1Time: "+date1Time)
+						// getorderlist(plus.storage.getItem("stockaccount"))
+					});
+				}
+			}, false);
+			var date2 =  document.querySelector("#date2")
+			date2.innerHTML = moment.parseZone(new Date().getTime()).local().format('YYYY-MM-DD')+" 23:59"
+			date2.addEventListener('tap', function() {
+				var _self = this;
+				if(_self.picker) {
+					_self.picker.show(function (rs) {
+						date2.innerText = rs.text
+						date2Time = new Date(rs.text.replace(/[\r-]/g,"/")).getTime()
+						console.log("date2Time: "+date2Time)
+						// getorderlist(plus.storage.getItem("stockaccount"))
+					});
+				} else {
+					var options = {
+						type: "datetime",//设置日历初始视图模式 
+						beginYear: 2014,//设置开始日期 
+						endYear: 2020,//设置结束日期 
+						value: date2.innerHTML
+					};
+					var id = this.getAttribute('id');
+					
+					_self.picker = new mui.DtPicker(options);
+					_self.picker.show(function(rs) {
+						date2.innerText = rs.text;
+						date2Time = new Date(rs.text.replace(/[\r-]/g,"/")).getTime()
+						console.log("date2Time: "+date2Time)
+						// getorderlist(plus.storage.getItem("stockaccount"))
+					});
+				}
+			}, false);
+			var date3 =  document.querySelector("#date3")
+			date3.innerHTML = moment.parseZone(new Date().getTime()).local().format('YYYY-MM-DD')+" 00:00"
+			date3.addEventListener('tap', function() {
+				var _self = this;
+				if(_self.picker) {
+					_self.picker.show(function (rs) {
+						date3.innerText = rs.text
+						date3Time = new Date(rs.text.replace(/[\r-]/g,"/")).getTime()
+						console.log("date3Time: "+date3Time)
+						// getcancellist(plus.storage.getItem("stockaccount"))
+					});
+				} else {
+					var options = {
+						type: "datetime",//设置日历初始视图模式 
+						beginYear: 2014,//设置开始日期 
+						endYear: 2020,//设置结束日期 
+						value: date3.innerHTML
+					};
+					var id = this.getAttribute('id');
+					
+					_self.picker = new mui.DtPicker(options);
+					_self.picker.show(function(rs) {
+						date3.innerText = rs.text;
+						date3Time = new Date(rs.text.replace(/[\r-]/g,"/")).getTime()
+						console.log("date3Time: "+date3Time)
+						// getcancellist(plus.storage.getItem("stockaccount"))
+					});
+				}
+			}, false);
+			var date4 =  document.querySelector("#date4")
+			date4.innerHTML = moment.parseZone(new Date().getTime()).local().format('YYYY-MM-DD')+" 23:59"
+			date4.addEventListener('tap', function() {
+				var _self = this;
+				if(_self.picker) {
+					_self.picker.show(function (rs) {
+						date4.innerText = rs.text
+						date4Time = new Date(rs.text.replace(/[\r-]/g,"/")).getTime()
+						console.log("date4Time: "+date4Time)
+						// getcancellist(plus.storage.getItem("stockaccount"))
+					});
+				} else {
+					var options = {
+						type: "datetime",//设置日历初始视图模式 
+						beginYear: 2014,//设置开始日期 
+						endYear: 2020,//设置结束日期 
+						value: date4.innerHTML
+					};
+					var id = this.getAttribute('id');
+					
+					_self.picker = new mui.DtPicker(options);
+					_self.picker.show(function(rs) {
+						date4.innerText = rs.text;
+						date4Time = new Date(rs.text.replace(/[\r-]/g,"/")).getTime()
+						console.log("date4Time: "+date4Time)
+						// getcancellist(plus.storage.getItem("stockaccount"))
+					});
+				}
+			}, false);
+			var date5 =  document.querySelector("#date5")
+			date5.innerHTML = moment.parseZone(new Date().getTime()).local().format('YYYY-MM-DD')+" 00:00"
+			date5.addEventListener('tap', function() {
+				var _self = this;
+				if(_self.picker) {
+					_self.picker.show(function (rs) {
+						date5.innerText = rs.text
+						date5Time = new Date(rs.text.replace(/[\r-]/g,"/")).getTime()
+						console.log("date5Time: "+date5Time)
+						// getcancellist(plus.storage.getItem("stockaccount"))
+					});
+				} else {
+					var options = {
+						type: "datetime",//设置日历初始视图模式 
+						beginYear: 2014,//设置开始日期 
+						endYear: 2020,//设置结束日期 
+						value: date5.innerHTML
+					};
+					var id = this.getAttribute('id');
+					
+					_self.picker = new mui.DtPicker(options);
+					_self.picker.show(function(rs) {
+						date5.innerText = rs.text;
+						date5Time = new Date(rs.text.replace(/[\r-]/g,"/")).getTime()
+						console.log("date5Time: "+date5Time)
+						// getcancellist(plus.storage.getItem("stockaccount"))
+					});
+				}
+			}, false);
+			var date6 =  document.querySelector("#date6")
+			date6.innerHTML = moment.parseZone(new Date().getTime()).local().format('YYYY-MM-DD')+" 23:59"
+			date6.addEventListener('tap', function() {
+				var _self = this;
+				if(_self.picker) {
+					_self.picker.show(function (rs) {
+						date6.innerText = rs.text
+						date6Time = new Date(rs.text.replace(/[\r-]/g,"/")).getTime()
+						console.log("date6Time: "+date6Time)
+						// getcancellist(plus.storage.getItem("stockaccount"))
+					});
+				} else {
+					var options = {
+						type: "datetime",//设置日历初始视图模式 
+						beginYear: 2014,//设置开始日期 
+						endYear: 2020,//设置结束日期 
+						value: date6.innerHTML
+					};
+					var id = this.getAttribute('id');
+					
+					_self.picker = new mui.DtPicker(options);
+					_self.picker.show(function(rs) {
+						date6.innerText = rs.text;
+						date6Time = new Date(rs.text.replace(/[\r-]/g,"/")).getTime()
+						console.log("date6Time: "+date6Time)
+						// getcancellist(plus.storage.getItem("stockaccount"))
+					});
+				}
+			}, false);
+			
+				
+			function initselector(stockcodelist){
+				// var topicker = new mui.PopPicker();
+				// topicker.setData(stockcodelist);
+				// 
+				// var showPresetBuy = document.getElementById('showPresetBuy');
+				// // topicker.pickers[0].setSelectedIndex(toaccountlist.innerHTML, 2000);
+				// showPresetBuy.addEventListener('tap', function(event) {
+				// 	topicker.show(function(items) {
+				// 		document.getElementById('toaccountlist').value = items[0].text;
+				// 		console.log(items[0].text)
+				// 		getstockdetail(items[0].text)
+				// 	});
+				// }, false);
+				
+				var topicker_ordertype = new mui.PopPicker();
+				topicker_ordertype.setData([
+					{value: "0",text: "Fix Price"},
+					{value: "1",text: "Market Price"}
+				]);
+				
+				var ordertype = document.getElementById('ordertype');
+				ordertype.addEventListener('tap', function(event) {
+					topicker_ordertype.show(function(items) {
+						ordertype.value = items[0].text;
+						if(items[0].value == "0"){
+							document.getElementById("date5_parent").classList.remove("mui-hidden")
+							document.getElementById("tradingprice_sell").classList.remove("mui-hidden")
+						}else{
+							document.getElementById("date5_parent").classList.add("mui-hidden")
+							document.getElementById("tradingprice_sell").classList.add("mui-hidden")
+						}
+					});
+				}, false);
+				
+				var topicker_ordertype_buy = new mui.PopPicker();
+				topicker_ordertype_buy.setData([
+					{value: "0",text: "Fix Price"},
+					{value: "1",text: "Market Price"}
+				]);
+				
+				var ordertypebuy = document.getElementById('ordertypebuy');
+				ordertypebuy.addEventListener('tap', function(event) {
+					topicker_ordertype_buy.show(function(items) {
+						ordertypebuy.value = items[0].text;
+						if(items[0].value == "0"){
+							document.getElementById("date6_parent").classList.remove("mui-hidden")
+							document.getElementById("tradingprice_buy").classList.remove("mui-hidden")
+						}else{
+							document.getElementById("date6_parent").classList.add("mui-hidden")
+							document.getElementById("tradingprice_buy").classList.add("mui-hidden")
+						}
+					});
+				}, false);
+				
+				var settlementaccountpicker_buy = new mui.PopPicker();
+				settlementaccountpicker_buy.setData(getsavingnumberpickerdata().concat(getcurrentnumberpickerdata()));
+				
+				var settlementaccount_buy = document.getElementById('settlementaccount_buy');
+				settlementaccountpicker_buy.pickers[0].setSelectedValue(plus.storage.getItem("settlementaccount"), 2000);
+				settlementaccount_buy.addEventListener('tap', function(event) {
+					settlementaccountpicker_buy.show(function(items) {
+						plus.storage.setItem("settlementaccount",items[0].text);
+						document.getElementById("settlementaccount_buy").value = items[0].text;
+						document.getElementById("settlementaccount_sell").value = items[0].text;
+						updateSettlementAccount(items[0].text);
+					});
+				}, false);
+				
+				var settlementaccountpicker_sell = new mui.PopPicker();
+				settlementaccountpicker_sell.setData(getsavingnumberpickerdata().concat(getcurrentnumberpickerdata()));
+				
+				var settlementaccount_sell = document.getElementById('settlementaccount_sell');
+				settlementaccountpicker_sell.pickers[0].setSelectedValue(plus.storage.getItem("settlementaccount"), 2000);
+				settlementaccount_sell.addEventListener('tap', function(event) {
+					settlementaccountpicker_sell.show(function(items) {
+						plus.storage.setItem("settlementaccount",items[0].text);
+						document.getElementById("settlementaccount_buy").value = items[0].text;
+						document.getElementById("settlementaccount_sell").value = items[0].text;
+						updateSettlementAccount(items[0].text);
+					});
+				}, false);
+			}
+			
+			function getstocklist() {
+				mui.ajax(host+"/stock-experience/stock/stockList",{
+					dataType:'json',//服务器返回json格式数据
+					type:'get',//HTTP请求类型
+					timeout:60000,
+					headers:{
+						'accept':'*/*',
+						'token':token,
+						'clientid':clientid,
+						'messageid':messageid,
+						'Content-Type':'application/json'
+						},
+					beforeSend: function() {
+						plus.nativeUI.showWaiting("Loading…", "div");
+						mask.show();
+					},
+					complete: function() {
+						plus.nativeUI.closeWaiting();
+						mask.close();
+					},
+					success:function(data){
+						if (data.code == "200") {
+							var response = data.data;
+							var str = "";
+							//Account Info
+							if (response) {
+								// console.log(JSON.stringify(response))
+								plus.storage.setItem("stocklist",JSON.stringify(response))
+								var stockcodelist = []
+								for(var i=0; i<100; i++){
+									stockcodelist.push({
+										value: response[i].id,
+										text: response[i].stockcode
+									})
+								}
+								initselector(stockcodelist)
+							}
+						} else {
+							// mui.alert("Get stock list failed! The response is: \n" + JSON.stringify(data) + ".", "Error", "OK")
+						}
+						
+						// mui.endPullupToRefresh(data.data.length > 10);
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+						var msg = "Get stock list failed! The response is: \n" + xhr.responseText + "."
+						if(type == "timeout"){
+							msg = "Get stock list failed. Time out!"
+						}
+						mui.alert(msg, "Error", "OK")
+					}
+				});
+			}
+			
+			
+			function getavaliblesharingno(number) {
+				avaliblesharingno = 0;
+				if(plus.storage.getItem("stockHoldingEnquiry")){
+					var data = JSON.parse(plus.storage.getItem("stockHoldingEnquiry"));
+					for(var i=0; i<data.length; i++){
+						if(data[i].stockcode == number){
+							avaliblesharingno  += Number(data[i].availableshare);
+						}
+					}
+					if(avaliblesharingno == 0){
+						document.getElementById("sell_btn").classList.add("mui-disabled")
+						// document.getElementById("sell_btn").id = "disable_sell_btn"
+						document.getElementById("volume_buy").innerHTML = "0"
+					}else{
+						document.getElementById("sell_btn").classList.remove("mui-disabled")
+						document.getElementById("volume_buy").innerHTML = avaliblesharingno
+						// document.getElementById("disable_sell_btn").id = "sell_btn"
+					}
+					console.log("avaliblesharingno: "+avaliblesharingno)
+				}
+			}
+			
+			function getstockholdstatics(account) {
+				var requestdata = {
+					"stkaccountnumber": account
+				}
+				mui.ajax(host+"/stock-experience/stock/stockHoldingEnquiry",{
+					data:requestdata,
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:60000,
+					headers:{
+						'accept':'*/*',
+						'token':token,
+						'clientid':clientid,
+						'messageid':messageid,
+						'Content-Type':'application/json'
+						},
+					beforeSend: function() {
+						plus.nativeUI.showWaiting("Loading…", "div");
+						mask.show();
+					},
+					complete: function() {
+						plus.nativeUI.closeWaiting();
+						mask.close();
+					},
+					success:function(data){
+						if (data.code == "200") {
+							var response1 = data.data;
+							var str1 = "";
+							//Account Info
+							if (response1) {
+								var holdinglist = response1.stkholdlist;
+								var totalasset = 0,
+								totalprofitandloss = 0,
+								totalcapitalization = decimal_format(response1.totalmarkervalue,3),
+								todayprofitandloss = 0;
+								
+								if(holdinglist.length > 0){
+									plus.storage.setItem("stockHoldingEnquiry",JSON.stringify(holdinglist))
+									var array = []
+									for(var i=0; i<holdinglist.length; i++){
+										array.push({
+											value: holdinglist[i].stockcode,
+											text: holdinglist[i].stockcode
+										})
+									}
+									// var topicker_sell = new mui.PopPicker();
+									// topicker_sell.setData(array);
+									// 
+									// var showPresetSell = document.getElementById('showPresetSell');
+									// showPresetSell.addEventListener('tap', function(event) {
+									// 	topicker_sell.show(function(items) {
+									// 		document.getElementById('toaccountlist_sell').value = items[0].text;
+									// 		getstockdetail_sell(items[0].text)
+									// 		getavaliblesharingno(items[0].text)
+									// 	});
+									// }, false);
+								}
+							}
+						} else {
+							// mui.alert("Get holding list failed! The response is: \n" + JSON.stringify(data) + ".", "Error", "OK")
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+						var msg = "Get holding list failed! The response is: \n" + xhr.responseText + "."
+						if(type == "timeout"){
+							msg = "Get holding list failed. Time out!"
+						}
+						if(typeof(JSON.parse(xhr.responseText)) == "object" && JSON.parse(xhr.responseText).code == "404017"){
+							console.log(JSON.parse(xhr.responseText).error)
+						}else if(typeof(JSON.parse(xhr.responseText)) == "object" && JSON.parse(xhr.responseText).code == "404015"){
+							console.log(JSON.parse(xhr.responseText).error)
+						}else{
+							mui.alert(msg, "Error", "OK")
+						}
+					}
+				});
+			}
+			
+			function getStatisticsInfo(data) {
+				var holdinglist = data.stkholdlist;
+				var totalmarketvalue = data.totalmarkervalue;
+				var result = {
+					totalprofitandloss:0,
+					totalearningrate:0,
+					stockwavelist:[]
+					};
+				var num = 0;
+				for(var i=0; i<holdinglist.length; i++){
+					result.stockwavelist[i] = {};
+					
+					result.stockwavelist[i].earningrate = toPercent((holdinglist[i].marketprice - holdinglist[i].averageprice)/holdinglist[i].averageprice);
+					
+					result.stockwavelist[i].earnings = decimal_format(holdinglist[i].marketvalue - (holdinglist[i].averageprice * holdinglist[i].sharesholdingno),3);
+					
+					result.totalprofitandloss += Number(result.stockwavelist[i].earnings);
+					
+					num += holdinglist[i].averageprice * holdinglist[i].sharesholdingno;
+				}
+				result.totalearningrate = toPercent((totalmarketvalue - num)/num);
+				result.totalprofitandloss = decimal_format(result.totalprofitandloss,3)
+				return result;
+			}
+			
+			function getcancellist(account) {
+				var fromdate = document.querySelector("#date3").innerText.replace(/[\r-]/g,"/")
+				// console.log(fromdate)
+				var todate = document.querySelector("#date4").innerText.replace(/[\r-]/g,"/")
+				// console.log(todate)
+				var fromTime = new Date(fromdate).getTime();
+				var toTime = new Date(todate).getTime();
+				
+				// console.log(new Date(fromdate+" 00:00:00"))
+				// console.log(new Date(todate+" 23:59:59"))
+				var requestdata = {
+					"fromdate": fromTime,
+					"stkaccountnumber": account,
+					"stockcode": "",
+					"index": 0,
+					"items": 9999,
+					"todate": toTime
+				}
+				console.log("getcancellist:"+JSON.stringify(requestdata))
+				mui.ajax(host+"/stock-experience/order/orderRetrieval",{
+					data:requestdata,
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:60000,
+					headers:{
+						'accept':'*/*',
+						'token':token,
+						'clientid':clientid,
+						'messageid':messageid,
+						'Content-Type':'application/json'
+						},
+					beforeSend: function() {
+						plus.nativeUI.showWaiting("Loading…", "div");
+						mask.show();
+					},
+					complete: function() {
+						plus.nativeUI.closeWaiting();
+						mask.close();
+					},
+					success:function(data){
+						if (data.code == "200") {
+							var response1 = data.data;
+							var str = "";
+							//Account Info
+							if (response1) {
+								var holdinglist = response1;
+								console.log("Cancel response:"+JSON.stringify(holdinglist))
+								document.querySelector("#order_list_cancel").innerHTML = ""
+								if(holdinglist.length > 0){
+									document.querySelector("#order_list_cancel").innerHTML = ""
+									for(var i=0; i<holdinglist.length; i++){
+										str = ""
+										if(holdinglist[i].statuscode == "0"){//pending
+											var li = document.createElement('li');
+											li.className = 'mui-table-view-cell mui-row stock-item';
+											li.id = holdinglist[i].id;
+											if(holdinglist[i].tradingoption == "Buy"){
+												str = '<div class="mui-col-xs-3"><h5 class="stock-name col-red">'+holdinglist[i].tradingoption+'</h5><p class="stock-number">'+moment.parseZone(holdinglist[i].requesttime).local().format('YYYY-MM-DD HH:mm:ss')+'</p></div><div class="mui-col-xs-3"><h5 class="stock-name">'+holdinglist[i].stockname+'</h5><p class="stock-number">'+holdinglist[i].stockcode+'</p></div><div class="mui-col-xs-4 mui-text-center"><h5 class="stock-name">'+holdinglist[i].tradingprice+'</h5><p class="stock-number">'+holdinglist[i].sharingno+' | <span class="col-yellow">'+holdinglist[i].sharingno+'</span></p></div><div class="mui-col-xs-2 mui-text-right"><a class="mui-btn" onClick="cancelOrder(\''+holdinglist[i].id+'\')">Cancel</a></div>';
+											}else{
+												str = '<div class="mui-col-xs-3"><h5 class="stock-name col-green">'+holdinglist[i].tradingoption+'</h5><p class="stock-number">'+moment.parseZone(holdinglist[i].requesttime).local().format('YYYY-MM-DD HH:mm:ss')+'</p></div><div class="mui-col-xs-3"><h5 class="stock-name">'+holdinglist[i].stockname+'</h5><p class="stock-number">'+holdinglist[i].stockcode+'</p></div><div class="mui-col-xs-4 mui-text-center"><h5 class="stock-name">'+holdinglist[i].tradingprice+'</h5><p class="stock-number">'+holdinglist[i].sharingno+' | <span class="col-yellow">'+holdinglist[i].sharingno+'</span></p></div><div class="mui-col-xs-2 mui-text-right"><a class="mui-btn" onClick="cancelOrder(\''+holdinglist[i].id+'\')">Cancel</a></div>';
+											}
+											li.innerHTML = str;
+											document.querySelector("#order_list_cancel").appendChild(li);
+										}else if(holdinglist[i].statuscode == "200"){//approve
+											
+										}else if(holdinglist[i].statuscode == "2"){//reject
+											
+										}else if(holdinglist[i].statuscode == "3"){//cancel
+											var li = document.createElement('li');
+											li.className = 'mui-table-view-cell mui-row stock-item';
+											li.id = holdinglist[i].id;
+											if(holdinglist[i].tradingoption == "Buy"){
+												str = '<div class="mui-col-xs-3"><h5 class="stock-name col-red">'+holdinglist[i].tradingoption+'</h5><p class="stock-number">'+moment.parseZone(holdinglist[i].requesttime).local().format('YYYY-MM-DD HH:mm:ss')+'</p></div><div class="mui-col-xs-3"><h5 class="stock-name">'+holdinglist[i].stockname+'</h5><p class="stock-number">'+holdinglist[i].stockcode+'</p></div><div class="mui-col-xs-4 mui-text-center"><h5 class="stock-name">'+holdinglist[i].tradingprice+'</h5><p class="stock-number">'+holdinglist[i].sharingno+' | <span class="col-yellow">'+holdinglist[i].sharingno+'</span></p></div><div class="mui-col-xs-2 mui-text-center">Canceled</div>';
+											}else{
+												str = '<div class="mui-col-xs-3"><h5 class="stock-name col-green">'+holdinglist[i].tradingoption+'</h5><p class="stock-number">'+moment.parseZone(holdinglist[i].requesttime).local().format('YYYY-MM-DD HH:mm:ss')+'</p></div><div class="mui-col-xs-3"><h5 class="stock-name">'+holdinglist[i].stockname+'</h5><p class="stock-number">'+holdinglist[i].stockcode+'</p></div><div class="mui-col-xs-4 mui-text-center"><h5 class="stock-name">'+holdinglist[i].tradingprice+'</h5><p class="stock-number">'+holdinglist[i].sharingno+' | <span class="col-yellow">'+holdinglist[i].sharingno+'</span></p></div><div class="mui-col-xs-2 mui-text-center">Canceled</div>';
+											}
+											li.innerHTML = str;
+											document.querySelector("#order_list_cancel").appendChild(li);
+										}
+									}
+									console.log(document.querySelector("#order_list_cancel").innerHTML)
+								}else{
+									document.querySelector("#order_list_cancel").innerHTML = '<li class="mui-table-view-cell mui-text-center stock-item">No Data</li>';
+								}
+							}
+						} else {
+							document.querySelector("#order_list_cancel").innerHTML = '<li class="mui-table-view-cell mui-text-center stock-item">No Data</li>';
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+						var msg = "Get cancel list failed! The response is: \n" + xhr.responseText + "."
+						if(type == "timeout"){
+							msg = "Get cancel list failed. Time out!"
+						}
+						if(typeof(JSON.parse(xhr.responseText)) == "object" && JSON.parse(xhr.responseText).code == "404017"){
+							document.querySelector("#order_list_cancel").innerHTML = '<li class="mui-table-view-cell mui-text-center stock-item">No Data</li>';
+						}else{
+							mui.alert(msg, "Error", "OK")
+						}
+					}
+				});
+			}
+			
+			function getorderlist(account) {
+				var fromdate = document.querySelector("#date1").innerText.replace(/[\r-]/g,"/")
+				// console.log(fromdate)
+				var todate = document.querySelector("#date2").innerText.replace(/[\r-]/g,"/")
+				// console.log(todate)
+				var fromTime = new Date(fromdate).getTime();
+				var toTime = new Date(todate).getTime();
+				
+				// console.log(new Date(fromdate+" 00:00:00"))
+				// console.log(new Date(todate+" 23:59:59"))
+				var requestdata = {
+					"fromdate": fromTime,
+					"stkaccountnumber": account,
+					"stockcode": "",
+					"index": 0,
+					"items": 9999,
+					"todate": toTime
+				}
+				console.log("getorderlist:"+JSON.stringify(requestdata))
+				mui.ajax(host+"/stock-experience/order/orderRetrieval",{
+					data:requestdata,
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:60000,
+					headers:{
+						'accept':'*/*',
+						'token':token,
+						'clientid':clientid,
+						'messageid':messageid,
+						'Content-Type':'application/json'
+						},
+					beforeSend: function() {
+						plus.nativeUI.showWaiting("Loading…", "div");
+						mask.show();
+					},
+					complete: function() {
+						plus.nativeUI.closeWaiting();
+						mask.close();
+					},
+					success:function(data){
+						if (data.code == "200") {
+							var response1 = data.data;
+							var str = "";
+							//Account Info
+							if (response1) {
+								var holdinglist = response1;
+								document.querySelector("#order_list").innerHTML = ""
+								if(holdinglist.length > 0){
+									plus.storage.setItem("holdinglist",JSON.stringify(holdinglist))
+									document.querySelector("#order_list").innerHTML = ""
+									for(var i=0; i<holdinglist.length; i++){
+										str = ""
+										if(holdinglist[i].statuscode == "0"){//pending
+											var li = document.createElement('li');
+											li.className = 'mui-table-view-cell mui-row stock-item';
+											li.id = holdinglist[i].id;
+											if(holdinglist[i].tradingoption == "Buy"){
+												str = '<div class="mui-col-xs-3"><h5 class="stock-name col-red">'+holdinglist[i].tradingoption+'</h5><p class="stock-number">'+moment.parseZone(holdinglist[i].requesttime).local().format('YYYY-MM-DD HH:mm:ss')+'</p></div><div class="mui-col-xs-3"><h5 class="stock-name">'+holdinglist[i].stockname+'</h5><p class="stock-number">'+holdinglist[i].stockcode+'</p></div><div class="mui-col-xs-4 mui-text-center"><h5 class="stock-name">'+holdinglist[i].tradingprice+'</h5><p class="stock-number">'+holdinglist[i].sharingno+' | <span class="col-yellow">'+holdinglist[i].sharingno+'</span></p></div><div class="mui-col-xs-2 mui-text-center">';
+												if(holdinglist[i].ordertype == "Fix Price"){
+													str += '<a class="mui-btn" onClick="editOrder(\''+holdinglist[i].id+'\')">Edit</a></div>'
+												}else{
+													str += '<a class="mui-btn" onClick="editOrder(\''+holdinglist[i].id+'\')">Edit</a></div>'
+												}
+											}else{
+												str = '<div class="mui-col-xs-3"><h5 class="stock-name col-green">'+holdinglist[i].tradingoption+'</h5><p class="stock-number">'+moment.parseZone(holdinglist[i].requesttime).local().format('YYYY-MM-DD HH:mm:ss')+'</p></div><div class="mui-col-xs-3"><h5 class="stock-name">'+holdinglist[i].stockname+'</h5><p class="stock-number">'+holdinglist[i].stockcode+'</p></div><div class="mui-col-xs-4 mui-text-center"><h5 class="stock-name">'+holdinglist[i].tradingprice+'</h5><p class="stock-number">'+holdinglist[i].sharingno+' | <span class="col-yellow">'+holdinglist[i].sharingno+'</span></p></div><div class="mui-col-xs-2 mui-text-center">';
+												if(holdinglist[i].ordertype == "Fix Price"){
+													str += '<a class="mui-btn" onClick="editOrder(\''+holdinglist[i].id+'\')">Edit</a></div>'
+												}else{
+													str += '<a class="mui-btn" onClick="editOrder(\''+holdinglist[i].id+'\')">Edit</a></div>'
+												}
+											}
+											li.innerHTML = str;
+											document.querySelector("#order_list").appendChild(li);
+										}else if(holdinglist[i].statuscode == "200"){//approve
+											// var li = document.createElement('li');
+											// li.className = 'mui-table-view-cell mui-row stock-item';
+											// li.id = holdinglist[i].id;
+											// if(holdinglist[i].tradingoption == "Buy"){
+											// 	str = '<div class="mui-col-xs-3"><h5 class="stock-name col-red">'+holdinglist[i].tradingoption+'</h5><p class="stock-number">'+moment.parseZone(holdinglist[i].requesttime).local().format('YYYY-MM-DD HH:mm:ss')+'</p></div><div class="mui-col-xs-3"><h5 class="stock-name">'+holdinglist[i].stockname+'</h5><p class="stock-number">'+holdinglist[i].stockcode+'</p></div><div class="mui-col-xs-4 mui-text-center"><h5 class="stock-name">'+holdinglist[i].tradingprice+'</h5><p class="stock-number">'+holdinglist[i].sharingno+' | <span class="col-yellow">'+holdinglist[i].sharingno+'</span></p></div><div class="mui-col-xs-2 mui-text-center">Done</div>';
+											// }else{
+											// 	str = '<div class="mui-col-xs-3"><h5 class="stock-name col-green">'+holdinglist[i].tradingoption+'</h5><p class="stock-number">'+moment.parseZone(holdinglist[i].requesttime).local().format('YYYY-MM-DD HH:mm:ss')+'</p></div><div class="mui-col-xs-3"><h5 class="stock-name">'+holdinglist[i].stockname+'</h5><p class="stock-number">'+holdinglist[i].stockcode+'</p></div><div class="mui-col-xs-4 mui-text-center"><h5 class="stock-name">'+holdinglist[i].tradingprice+'</h5><p class="stock-number">'+holdinglist[i].sharingno+' | <span class="col-yellow">'+holdinglist[i].sharingno+'</span></p></div><div class="mui-col-xs-2 mui-text-center">Done</div>';
+											// }
+											// li.innerHTML = str;
+											// document.querySelector("#order_list").appendChild(li);
+										}else if(holdinglist[i].statuscode == "2"){//reject
+											// var li = document.createElement('li');
+											// li.className = 'mui-table-view-cell mui-row stock-item';
+											// li.id = holdinglist[i].id;
+											// if(holdinglist[i].tradingoption == "Buy"){
+											// 	str = '<div class="mui-col-xs-3"><h5 class="stock-name col-red">'+holdinglist[i].tradingoption+'</h5><p class="stock-number">'+moment.parseZone(holdinglist[i].requesttime).local().format('YYYY-MM-DD HH:mm:ss')+'</p></div><div class="mui-col-xs-3"><h5 class="stock-name">'+holdinglist[i].stockname+'</h5><p class="stock-number">'+holdinglist[i].stockcode+'</p></div><div class="mui-col-xs-4 mui-text-center"><h5 class="stock-name">'+holdinglist[i].tradingprice+'</h5><p class="stock-number">'+holdinglist[i].sharingno+' | <span class="col-yellow">'+holdinglist[i].sharingno+'</span></p></div><div class="mui-col-xs-2 mui-text-center">Rejected</div>';
+											// }else{
+											// 	str = '<div class="mui-col-xs-3"><h5 class="stock-name col-green">'+holdinglist[i].tradingoption+'</h5><p class="stock-number">'+moment.parseZone(holdinglist[i].requesttime).local().format('YYYY-MM-DD HH:mm:ss')+'</p></div><div class="mui-col-xs-3"><h5 class="stock-name">'+holdinglist[i].stockname+'</h5><p class="stock-number">'+holdinglist[i].stockcode+'</p></div><div class="mui-col-xs-4 mui-text-center"><h5 class="stock-name">'+holdinglist[i].tradingprice+'</h5><p class="stock-number">'+holdinglist[i].sharingno+' | <span class="col-yellow">'+holdinglist[i].sharingno+'</span></p></div><div class="mui-col-xs-2 mui-text-center">Rejected</div>';
+											// }
+											// li.innerHTML = str;
+											// document.querySelector("#order_list").appendChild(li);
+										}else if(holdinglist[i].statuscode == "3"){//cancel
+											
+										}
+									}
+									// console.log(document.querySelector("#order_list").innerHTML)
+								}
+							}
+						} else {
+							// mui.alert("Get order list failed! The response is: \n" + JSON.stringify(data) + ".", "Error", "OK")
+							document.querySelector("#order_list").innerHTML = '<li class="mui-table-view-cell mui-text-center stock-item">No Data</li>';
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+						var msg = "Get order list failed! The response is: \n" + xhr.responseText + "."
+						if(type == "timeout"){
+							msg = "Get order list failed. Time out!"
+						}
+						if(typeof(JSON.parse(xhr.responseText)) == "object" && JSON.parse(xhr.responseText).code == "404017"){
+							document.querySelector("#order_list").innerHTML = '<li class="mui-table-view-cell mui-text-center stock-item">No Data</li>';
+						}else{
+							mui.alert(msg, "Error", "OK")
+						}
+					}
+				});
+			}
+			
+			function cancelOrder(id){
+				var btnArray = ['Cancel', 'OK'];
+				mui.confirm('Are you sure to cancel?', 'Confirm', btnArray, function(e) {
+					if (e.index == 1) {
+						mui.ajax(host+"/stock-experience/order/cancellation",{
+							data:{id:id},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:60000,
+							headers:{
+								'accept':'*/*',
+								'token':token,
+								'clientid':clientid,
+								'messageid':messageid,
+								'Content-Type':'application/json'
+								},
+							beforeSend: function() {
+								plus.nativeUI.showWaiting("Loading…", "div");
+								mask.show();
+							},
+							complete: function() {
+								plus.nativeUI.closeWaiting();
+								mask.close();
+							},
+							success:function(data){
+								if (data.code == "200") {
+									var response1 = data.data;
+									var str = "";
+									mui.alert("Operation accepted.", "Success", "OK",function(){
+										//初始化Cancel tag
+										getcancellist(plus.storage.getItem("stockaccount"))
+										
+										//初始化Order tag
+										getorderlist(plus.storage.getItem("stockaccount"))
+									})
+								} else {
+									mui.alert("Operation failed! The response is: \n" + JSON.stringify(data) + ".", "Error", "OK")
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								console.log(type);
+								var msg = "Operation failed! The response is: \n" + xhr.responseText + "."
+								if(type == "timeout"){
+									msg = "Operation failed. Time out!"
+								}
+								mui.alert(msg, "Error", "OK")
+							}
+						});
+					} else {
+						//Cancel
+					}
+				})
+			}
+			
+			function editOrder(id){
+				mui.openWindow({
+					url: "stockeditorder.html",
+					id: "stockeditorder",
+					show: {
+						aniShow: 'pop-in',
+						duration: 500
+					},
+					extras: { //extras里面的就是参数了
+						number: id
+					},
+					waiting: {
+						autoShow: true, //自动显示等待框，默认为true
+						title: 'Loading...'
+					}
+				});
+			}
+			
+			function getholdingbalance(account){
+				mui.ajax(host+"/deposit-experience/deposit/account/accountDetails/"+account,{
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:60000,
+					headers:{
+						'accept':'*/*',
+						'token':token,
+						'clientid':clientid,
+						'messageid':messageid,
+						'Content-Type':'application/json'
+						},
+					beforeSend: function() {
+						plus.nativeUI.showWaiting("Loading…", "div");
+						mask.show();
+					},
+					complete: function() {
+						plus.nativeUI.closeWaiting();
+						mask.close();
+					},
+					success:function(data){
+						if (data.code == "200") {
+							var response1 = data.data;
+							var accountinfo = ""
+							var account2 = response1.account;
+							
+							// accountinfo += "<li class='mui-table-view-cell mui-text-center'><b>Account Info</b></li>"
+							
+							if (account2.accountnumber && typeof(account2.accountnumber) != "undefined") {
+								accountinfo += "<li class='mui-table-view-cell'><b>Settlement Account: </b>" + account2.accountnumber + "</li>"
+							} else {
+								accountinfo += "<li class='mui-table-view-cell'><b>Settlement Account: </b>--</li>"
+							}
+							// if (account2.availablebalance && typeof(account2.availablebalance) != "undefined") {
+							// 	accountinfo += "<li class='mui-table-view-cell'><b>Available Balance: </b>" + account2.availablebalance + " HKD</li>"
+							// } else {
+							// 	accountinfo += "<li class='mui-table-view-cell'><b>Available Balance: </b>0 HKD</li>"
+							// }
+							// if (account2.ledgerbalance && typeof(account2.ledgerbalance) != "undefined") {
+							// 	accountinfo += "<li class='mui-table-view-cell'><b>Ledger Balance: </b>" + account2.ledgerbalance + " HKD</li>"
+							// } else {
+							// 	accountinfo += "<li class='mui-table-view-cell'><b>Ledger Balance: </b>0 HKD</li>"
+							// }
+							// if (account2.holdingbalance && typeof(account2.holdingbalance) != "undefined") {
+							// 	accountinfo += "<li class='mui-table-view-cell'><b>Holding Balance: </b>" + account2.holdingbalance + " HKD</li>"
+							// } else {
+							// 	accountinfo += "<li class='mui-table-view-cell'><b>Holding Balance: </b>0 HKD</li>"
+							// }
+							// if (account2.lastupdateddate && typeof(account2.lastupdateddate) != "undefined") {
+							// 	accountinfo += "<li class='mui-table-view-cell'><b>Last Updated Time: </b>" + moment.parseZone(Number(account2.lastupdateddate)).local().format('YYYY-MM-DD HH:mm:ss') + "</li>"
+							// } else {
+							// 	accountinfo += "<li class='mui-table-view-cell'><b>Last Updated Time: </b>--</li>"
+							// }
+								
+							document.getElementById("settlement_account_info_buy").innerHTML = accountinfo;
+							document.getElementById("settlement_account_info_sell").innerHTML = accountinfo;
+							// console.log(accountinfo)
+						} else {
+							// mui.alert("Get account info failed! The response is: \n" + JSON.stringify(data) + ".", "Error", "OK")
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+						var msg = "Get account info failed! The response is: \n" + xhr.responseText + "."
+						if(type == "timeout"){
+							msg = "Get account info failed. Time out!"
+						}
+						mui.alert(msg, "Error", "OK")
+					}
+				});
+			}
+			
+			function updateSettlementAccount(account){
+				var requestdata = {
+					"newsettleaccountnumber": account,
+					"stkaccountnumber": plus.storage.getItem("stockaccount")
+				}
+				mui.ajax(host+"/stock-experience/stock/settlementAccountUpdate",{
+					data: requestdata,
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:60000,
+					headers:{
+						'accept':'*/*',
+						'token':token,
+						'clientid':clientid,
+						'messageid':messageid,
+						'Content-Type':'application/json'
+						},
+					beforeSend: function() {
+						plus.nativeUI.showWaiting("Loading…", "div");
+						mask.show();
+					},
+					complete: function() {
+						plus.nativeUI.closeWaiting();
+						mask.close();
+					},
+					success:function(data){
+						if (data.code == "200") {
+							mui.alert("Update the settlement account Accepted.", "Success", "OK")
+						} else {
+							mui.alert("Update the settlement account failed! The response is: \n" + JSON.stringify(data) + ".", "Error", "OK")
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+						var msg = "Update the settlement account failed! The response is: \n" + xhr.responseText + "."
+						if(type == "timeout"){
+							msg = "Update the settlement account failed. Time out!"
+						}
+						mui.alert(msg, "Error", "OK")
+					}
+				});
+			}
 		</script>
 	</body>
-
 </html>

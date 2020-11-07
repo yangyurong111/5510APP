@@ -39,32 +39,25 @@
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">注册</h1>
+			<h1 class="mui-title">Account</h1>
 		</header>
 		<div class="mui-content">
 			<form class="mui-input-group">
 				<div class="mui-input-row">
-					<label>账号</label>
-					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+					<label>Account</label>
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="Please enter account number">
 				</div>
 				<div class="mui-input-row">
-					<label>密码</label>
-					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+					<label>Password</label>
+					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="Please enter password">
 				</div>
 				<div class="mui-input-row">
-					<label>确认</label>
-					<input id='password_confirm' type="password" class="mui-input-clear mui-input" placeholder="请确认密码">
-				</div>
-				<div class="mui-input-row">
-					<label>邮箱</label>
-					<input id='email' type="email" class="mui-input-clear mui-input" placeholder="请输入邮箱">
+					<label>Confirm</label>
+					<input id='password_confirm' type="password" class="mui-input-clear mui-input" placeholder="Please confirm password">
 				</div>
 			</form>
 			<div class="mui-content-padded">
-				<button id='reg' class="mui-btn mui-btn-block mui-btn-primary">注册</button>
-			</div>
-			<div class="mui-content-padded">
-				<p>注册真实可用，注册成功后的用户可用于登录，但是示例程序并未和服务端交互，用户相关数据仅存储于本地。</p>
+				<button id='reg' class="mui-btn mui-btn-block mui-btn-primary">Register</button>
 			</div>
 		</div>
 		<script src="js/mui.min.js"></script>
@@ -117,6 +110,32 @@
 				});
 			}(mui, document));
 		</script>
+<!- 我添加的内容！-> 
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+	<script>
+			 $(document).ready(function () {
+			 	$("#reg").click(function(){
+					var username = $("#account").val();
+					var password = $("#password").val();
+					$.ajax({
+							type : 'post',
+							url:"http://47.103.196.168/py_x3/reg",
+							timeout:5000,
+							data:JSON.stringify({"username":username, "password":password}),
+							success: function(data){
+							alert(data);
+							window.location.href = "index.html"
+							// 确认密码和原密码，密码位数>6位
+							},
+							error: function(data){
+							alert(data);
+							alert("连接失败，请检查手机网络")
+							}
+						});
+				});
+			 })
+	</script>
+<!- 我添加的内容！-> 
 	</body>
 
 </html>
